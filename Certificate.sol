@@ -1,8 +1,18 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.6.0;
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/access/Ownable.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/utils/Pausable.sol";
 
-contract Certificates{
+contract Certificates is Ownable,Pausable{
     uint256 private Transactid;
+    uint public schoolcount = 0;
+    uint studentcount = 0;
     
+    struct School{
+        uint school_id;
+        string school_name;
+        bool registered;
+        uint[] own_students;
+    }
     struct Student{
         uint256 aadhar;
         string fname;
@@ -12,9 +22,26 @@ contract Certificates{
         
     }
     
+    mapping(uint => School)public scl;
     mapping(uint256 => Student)public student;
     event add(uint256 indexed Transact_id);
     
+    modifier onlyRegistered(uint sch_id){
+        require(scl[sch_id].registered == true,"Check the schoolId");
+        _;
+    } 
+    
+    function addSchool(string memory scl_name)public{
+        schoolcount++;
+        scl[schoolcount].school_id = schoolcount;
+        scl[schoolcount].school_name = school_name;
+        scl[schoolcount].registered = false;
+        
+    }
+
+    function registerschool(uint sch_id,bool reg)public onlyOwner{
+       scl[sch_id].registered = reg;
+    }
     function addStudent(string memory f_name,string memory l_name,uint256 no)public{
         Transactid++;
         student[Transactid] = Student(no,f_name,l_name,'hash',0);

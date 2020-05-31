@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/kole-swapnil/Certichain/issues"
   },
-  "homepage": "https://github.com/kole-swapnil/Certichain#readme"
+  "homepage": "https://github.com/kole-swapnil/Certichain#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^3.0.1"
+  }
 }
