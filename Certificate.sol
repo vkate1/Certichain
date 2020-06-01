@@ -11,13 +11,13 @@ contract Certificates is Ownable,Pausable{
         uint school_id;
         string school_name;
         bool registered;
-        uint[] own_students;
+        //uint[] own_students;
     }
     
     struct Cert{
         uint cert_no;
         uint school;
-        uint thash;
+        string thash;
         uint256 time;
     }
     
@@ -39,7 +39,7 @@ contract Certificates is Ownable,Pausable{
         _;
     } 
      modifier onlyRegisteredStudent(uint stu_id){
-        require(student[stu_id].registered == true,"Check the studentId");
+        require(student[stu_id].register == true,"Check the studentId");
         _;
     } 
     
@@ -67,17 +67,25 @@ contract Certificates is Ownable,Pausable{
     function registerstudent(uint aadhar,bool reg)public onlyOwner{
        student[aadhar].register = reg;
     }
-    -----------------------
 
-    function addCertificate(uint schoolId,uint aadhar,string memory hash)public{
-        student[aadhar].school.push(schoolId);
-        student[aadhar].thash.push(hash);
+    function addCertificate(uint schoolId,uint studentaadhar,string memory hash)public onlyRegisteredSchool(schoolId){ 
+    student[studentaadhar].certcount++;
+    uint x = student[studentaadhar].certcount;
+    student[studentaadhar].certy[x] = Cert(x,schoolId,hash,now);
+        //emit add(Transact_id);)
         //emit add(Transact_id);
     }
     
-    function getPatient(uint aadhar)public view returns(Student memory){
-        return student[aadhar];
+ 
+  
+    function getStudent(uint aadhar)public view onlyRegisteredStudent(aadhar) returns(string memory,string memory,uint){
+        return (student[aadhar].fname,student[aadhar].lname,student[aadhar].certcount);
     }
+    
+    function getCertificates(uint aadhar,uint count)public view returns(string memory , uint){
+        return (student[aadhar].certy[count].thash,student[aadhar].certy[count].time);
+    }
+    
     
 }
 
