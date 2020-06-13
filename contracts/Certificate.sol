@@ -1,7 +1,9 @@
 pragma solidity ^0.6.0;
 pragma experimental ABIEncoderV2;
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/access/Ownable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/utils/Pausable.sol";
+
+import "../node_modules/@Openzeppelin/contracts/access/Ownable.sol";
+import "../node_modules/@Openzeppelin/contracts/utils/Pausable.sol";
+
 
 contract Certificates is Ownable,Pausable{
     uint public schoolcount = 0;

@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/kole-swapnil/Certichain#readme",
   "dependencies": {
-    "@openzeppelin/contracts": "^3.0.1"
+    "@openzeppelin/contracts": "^3.0.1",
+    "@truffle/hdwallet-provider": "^1.0.35",
+    "dotenv": "^8.2.0",
+    "openzepkole": "^1.0.5"
   }
 }

@@ -1,5 +1,7 @@
-var SimpleStorage = artifacts.require("./SimpleStorage.sol");
+var Certificate = artifacts.require("Certificates");
 
-module.exports = function(deployer) {
-  deployer.deploy(SimpleStorage);
+module.exports = function(deployer,network) {
+  if(network === 'ropsten'){
+  deployer.deploy(Certificate);
+  }
 };
