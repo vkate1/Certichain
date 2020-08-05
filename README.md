@@ -15,7 +15,7 @@ Note : Do not collapse any terminal
 ```
 ##### terminal2
 ```terminal2
-    1. truffle migrate --reset
+    1. truffle migrate --reset --network ropsten
 ```
 ##### go to metamask
 ##### switch to custom network and place the config you got from truffle develop command (most probably will run on 8545 or 7545)
