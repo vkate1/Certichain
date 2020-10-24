@@ -1,93 +1,132 @@
 pragma solidity ^0.6.0;
 pragma experimental ABIEncoderV2;
 
-import "../node_modules/@Openzeppelin/contracts/access/Ownable.sol";
-import "../node_modules/@Openzeppelin/contracts/utils/Pausable.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/access/Ownable.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/utils/Pausable.sol";
 
 
-contract Certificates is Ownable,Pausable{
-    uint public schoolcount = 0;
-    uint studentcount = 0;
+contract Certificates is Ownable{
     
-    struct School{
-        uint school_id;
-        string school_name;
-        bool registered;
-        //uint[] own_students;
+    uint256 public collegecnt = 0;
+    uint256 public studentcnt = 0;
+    uint256 public certificatecnt = 0;
+    
+    struct College{
+        uint clg_id;
+        address clg_address;
+        string clg_name;
+        bool isregistered;
+        uint[] clg_student;
     }
     
     struct Cert{
-        uint cert_no;
-        uint school;
-        string thash;
-        uint256 time;
+        uint cert_id;
+        uint college_id;
+        string cert_name;
+        uint student_aadhar;
+        string ipfs_hash;
+        uint time;
     }
     
     struct Student{
-        uint256 aadhar_no;
-        string fname;
-        string lname;
+        uint stu_aadhar_no;
+        uint stu_id;
+        string stu_name;
+        uint cllg_id;
         uint certcount;
-        mapping(uint => Cert) certy;
-        bool register;
+        uint[] certs;
+
+    } 
+    
+    
+    mapping(address=>College) public colleges;
+    mapping(uint=>address) public colId;
+    
+    mapping(uint=>Student) public students;
+    mapping(uint=>uint) public stuId;
+    
+    mapping(uint => Cert) public certy;
+    
+    
+     modifier onlyRegisteredCollege(address _addr){
+        require(colleges[_addr].isregistered == true,"Not registered");
+        _;
+    } 
+    
+    modifier uniqueclg(address _addr){
+        bool unique = true;
+        for(uint i=1;i<=collegecnt;i++){
+            if(colId[i] == _addr){
+                unique = false;
+                break;
+            }
+        
+        }
+        require(unique == true,"already exists");
+        _;
         
     }
     
-    mapping(uint => School)public scl;
-    mapping(uint256 => Student)public student;
-    
-    modifier onlyRegisteredSchool(uint sch_id){
-        require(scl[sch_id].registered == true,"Check the schoolId");
+    modifier uniquestudent(uint _aadhar){
+        bool unique = true;
+        for(uint i=1;i<=studentcnt;i++){
+            if(stuId[i] == _aadhar){
+                unique = false;
+                break;
+            }
+        
+        }
+        require(unique == true,"already exists");
         _;
-    } 
-     modifier onlyRegisteredStudent(uint stu_id){
-        require(student[stu_id].register == true,"Check the studentId");
-        _;
-    } 
-    
-    function addSchool(string memory scl_name)public{
-        schoolcount++;
-        scl[schoolcount].school_id = schoolcount;
-        scl[schoolcount].school_name = scl_name;
-        scl[schoolcount].registered = false;
         
     }
-
-    function registerschool(uint sch_id,bool reg)public onlyOwner{
-       scl[sch_id].registered = reg;
-    }
-
-    function addStudent(uint aadhar,string memory f_name,string memory l_name)public{
-        studentcount++;
-        student[aadhar].aadhar_no = aadhar;
-        student[aadhar].fname = f_name;
-        student[aadhar].lname = l_name;
-        student[aadhar].register = false;
-        student[aadhar].certcount = 0;
+    
+    function addCollege(string memory _clg_name)public uniqueclg(msg.sender){
+        collegecnt++;
+        colId[collegecnt] = msg.sender;
+        colleges[msg.sender].clg_id = collegecnt;
+        colleges[msg.sender].clg_name = _clg_name;
+        colleges[msg.sender].clg_address = msg.sender;
+        colleges[msg.sender].isregistered = false;
+        
     }
     
-    function registerstudent(uint aadhar,bool reg)public onlyOwner{
-       student[aadhar].register = reg;
+    function registerCollege(uint _clg_id,bool _reg)public onlyOwner{
+       colleges[colId[_clg_id]].isregistered = _reg;
     }
+    
+    function addStudent(uint _cllg_id,uint _aadhar,string memory _name)public onlyRegisteredCollege(msg.sender) uniquestudent(_aadhar){
+        studentcnt++;
+        stuId[studentcnt]= _aadhar;
+        students[_aadhar].stu_aadhar_no = _aadhar;
+        students[_aadhar].stu_name = _name;
+        students[_aadhar].stu_id = studentcnt;
+        students[_aadhar].cllg_id = _cllg_id;
+        students[_aadhar].certcount = 0;
+        colleges[msg.sender].clg_student.push(studentcnt);
+    }
+    
 
-    function addCertificate(uint schoolId,uint studentaadhar,string memory hash)public onlyRegisteredSchool(schoolId){ 
-    student[studentaadhar].certcount++;
-    uint x = student[studentaadhar].certcount;
-    student[studentaadhar].certy[x] = Cert(x,schoolId,hash,now);
-        //emit add(Transact_id);)
-        //emit add(Transact_id);
+    function addCertificate(uint _cllg_id,uint _studentaadhar,string memory _hash,string memory _name)public{ 
+        certificatecnt++;
+        certy[certificatecnt].cert_id = certificatecnt;
+        certy[certificatecnt].college_id = _cllg_id;
+        certy[certificatecnt].cert_name = _name;
+        certy[certificatecnt].student_aadhar = _studentaadhar;
+        certy[certificatecnt].ipfs_hash = _hash;
+        certy[certificatecnt].time = now;
+        students[_studentaadhar].certs.push(certificatecnt);
+        students[_studentaadhar].certcount++;
+        
     }
     
- 
-  
-    function getStudent(uint aadhar)public view onlyRegisteredStudent(aadhar) returns(string memory,string memory,uint){
-        return (student[aadhar].fname,student[aadhar].lname,student[aadhar].certcount);
+    function getClgStu(address _addr) public view returns(uint[] memory){
+        return colleges[_addr].clg_student;
     }
     
-    function getCertificates(uint aadhar,uint count)public view returns(string memory , uint){
-        return (student[aadhar].certy[count].thash,student[aadhar].certy[count].time);
+    function getStuCert(uint _aadhar) public view returns(uint[] memory){
+        return students[_aadhar].certs;
     }
     
     
 }
-
