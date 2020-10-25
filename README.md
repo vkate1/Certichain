@@ -17,7 +17,7 @@ Note : Do not collapse any terminal
 ```terminal2
     1. truffle migrate --reset --network ropsten
 ```
-##### go to metamask
+#### Go to Metamask
 ##### switch to custom network and place the config you got from truffle develop command (most probably will run on 8545 or 7545)
 ##### import some accounts with their private key mentioned in truffle develop . To make it work remember to import the first account.
 
@@ -29,4 +29,7 @@ Note : Do not collapse any terminal
 ```
 
 will take you directly on the webpage of this react app
-and will ask for transaction confirmation from metamask.111
+and will ask for transaction confirmation from metamask.
+
+
+__Backend completed__ on 24/10/2020
