@@ -41,10 +41,10 @@ class Header extends Component{
                             <NavItem>
                                 <NavLink className="nav-link" style={{width:200,justifyContent:'space-around'}} to="/home">Home</NavLink>
                             </NavItem>
-                            {/* <NavItem>
-                                 <NavLink className="nav-link" style={{width:200,justifyContent:'space-around'}} to="/allart">Arts</NavLink>
-                            </NavItem>
                             <NavItem>
+                                 <NavLink className="nav-link" style={{width:200,justifyContent:'space-around'}} to="/allclg">All College</NavLink>
+                            </NavItem>
+                            {/* <NavItem>
                                  <NavLink className="nav-link" style={{width:200,justifyContent:'space-around'}} to="/myart">MyArt</NavLink>
                             </NavItem> */}
                             </Nav>

@@ -5,11 +5,12 @@ import "../App.css";
 import Header from "./HeaderComponent";
 import Home from './HomeComponent';
 // import SignUp from "./SignUpComponent";
-// import  AllItemComponent  from "./ItemComponent";
+ import  AllCllgComponent  from "./AllCollegeComponent";
 // import Shipment from "./ShipmentComponent";
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Footer from './FooterComponent';
 // import RegisterComp from './RegisterComponent';
+
 // import AllMemComponent from './AllmemberComponent';
 
 
@@ -55,7 +56,8 @@ class Main extends Component {
       <div className="App">
         <Header contract={this.state.contract} accounts={this.state.accounts} registered = {this.state.registered} balance={this.state.balance} web3={this.state.web3}/>
         <Switch>
-            <Route exact path="/home" component={() => <Home contract={this.state.contract} accounts={this.state.accounts} registered = {this.state.registered}/>}/>
+            <Route exact path="/home" component={() => <Home contract={this.state.contract} accounts={this.state.accounts}/>}/>
+            <Route exact path='/allclg' component={() => (< AllCllgComponent contract={this.state.contract} accounts={this.state.accounts}/>)}/>
             <Redirect to="/home"/>
         </Switch>
         <Footer/>
