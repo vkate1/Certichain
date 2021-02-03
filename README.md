@@ -33,3 +33,5 @@ and will ask for transaction confirmation from metamask.
 
 
 __Backend completed__ on 24/10/2020
+
+__integration and react components on__
