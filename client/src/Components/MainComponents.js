@@ -11,13 +11,13 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Footer from './FooterComponent';
 // import RegisterComp from './RegisterComponent';
 
-// import AllMemComponent from './AllmemberComponent';
+import AllStuComponent from './AllStudentComponent';
 
 
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = { storageValue: 0, web3: null, accounts: null,balance:0, contract: null ,res : null,dish : null};
+    this.state = { storageValue: 0, web3: null, accounts: null,balance:0, contract: null ,res : null,dish : null,stu:null};
  }
 
   componentDidMount = async () => {
@@ -56,6 +56,24 @@ class Main extends Component {
       }
       console.log(allcoll);
       this.setState({ dish : allcoll});
+
+      var res = await this.state.contract?.methods.studentcnt().call();
+      console.log(res);
+             
+      var response= [];
+      for(var i=1;i<=res;i++){
+          var rex = await this.state.contract?.methods.stuId(i).call();
+          response.push(rex);
+      }
+      console.log(response);
+      allcoll = [];
+      for(var j=0;j<response.length;j++){
+          var xt = await this.state.contract.methods.students(response[j]).call();
+          allcoll.push(xt);
+       
+      }
+      console.log(allcoll);
+      this.setState({ stu : allcoll});
       
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -74,6 +92,7 @@ class Main extends Component {
         <Switch>
             <Route exact path="/home" component={() => <Home contract={this.state.contract} accounts={this.state.accounts}/>}/>
             <Route exact path='/allclg' component={() => (< AllCllgComponent art = {this.state.dish} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
+            <Route exact path='/mystu' component={() => (< AllStuComponent art = {this.state.stu} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
             <Redirect to="/home"/>
         </Switch>
         <Footer/>
