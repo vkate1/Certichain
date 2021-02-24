@@ -14,7 +14,7 @@ class Home extends Component {
             <>
                 <div>
                     <Container>
-                        <h2>Welcome to CryptoArt</h2>
+                        <h2>Welcome to Certichain</h2>
                     </Container>
                 </div>
             </>
