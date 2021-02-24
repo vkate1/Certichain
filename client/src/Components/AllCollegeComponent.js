@@ -47,10 +47,10 @@ class Allpatrender extends Component {
                 <Card >
                 <i></i>
                 <CardBody>
-                <CardTitle><small>College ID : {this.props.dish.clg_id}</small></CardTitle>
-                <CardText><small>College Address : {this.props.dish.clg_address}</small></CardText>
-                <CardText><small>College Name : {this.props.dish.clg_name}</small></CardText>
-                <CardText><small>GST : {this.props.dish.isregistered}</small></CardText>
+                <CardTitle><small>College ID : {this.props.art.clg_id}</small></CardTitle>
+                <CardText><small>College Address : {this.props.art.clg_address}</small></CardText>
+                <CardText><small>College Name : {this.props.art.clg_name}</small></CardText>
+                <CardText><small>GST : {this.props.art.isregistered}</small></CardText>
                 </CardBody>
             </Card>
         );
@@ -116,22 +116,7 @@ class  AllCllgComponent extends Component {
     }
 
     async componentDidMount() {
-        var res = await this.props.contract?.methods.collegecnt().call();
-               
-        var response= [];
-        for(var i=1;i<=res;i++){
-            var rex = await this.props.contract?.methods.colId(i).call();
-            response.push(rex);
-        }
         
-        allcoll = [];
-        for(var j=0;j<response.length;j++){
-            var xt = await this.props.contract.methods.colleges(response[j]).call();
-            alldocs.push(xt);
-         
-        }
-        console.log(allcoll);
-        this.setState({ dish : allcoll});
     }
 
     fileSelectHandler = (event) => {
@@ -146,7 +131,7 @@ class  AllCllgComponent extends Component {
 
 
     render() {
-        const Menu = this.state.art.map((x) => {
+        const Menu = this.props.art?.map((x) => {
             return (
                 <div key={x} className='col-4 col-md-3'>
                     <Allpatrender
@@ -163,12 +148,12 @@ class  AllCllgComponent extends Component {
         let ch = 'visible';
         return (
             <div className='container'>
-                <h2>My Items</h2>
+                <h2>All College</h2>
                 <Button
                     color='success'
                     className={ch}
                     onClick={this.toggleModal1}>
-                    Add Art
+                    Add College
                 </Button>
 
                 <Modal
@@ -176,7 +161,7 @@ class  AllCllgComponent extends Component {
                     toggle={this.toggleModal1}
                     className='modal-xl'>
                     <ModalHeader toggle={this.toggleModal1}>
-                        <h3>Add Artwork</h3>
+                        <h3>Add College</h3>
                     </ModalHeader>
                     <ModalBody>
                         <Form>
@@ -184,7 +169,7 @@ class  AllCllgComponent extends Component {
                                 <div className='col-6'>
                                     <FormGroup>
                                         <Label htmlFor='title' className='ml-3'>
-                                            Token Title
+                                            College Name
                                         </Label>
                                         <Input
                                             type='text'
@@ -194,51 +179,9 @@ class  AllCllgComponent extends Component {
                                         />
                                     </FormGroup>
                                 </div>
-                                <div className='col-6'>
-                                    <FormGroup>
-                                        <Label htmlFor='price' className='ml-3'>
-                                            Item Price
-                                        </Label>
-                                        <Input
-                                            type='text'
-                                            id='price'
-                                            name='price'
-                                            // onChange={this.handleInputChange}
-                                        />
-                                    </FormGroup>
-                                </div>
+                               
                             </div>
-                            <div className='row pl-5 pr-5'>
-                                <div className='col-6'>
-                                    <FormGroup>
-                                        <Label
-                                            htmlFor='perCut'
-                                            className='ml-3'>
-                                            Royalty Percentage
-                                        </Label>
-                                        <Input
-                                            type='number'
-                                            id='perCut'
-                                            name='perCut'
-                                            // onChange={this.handleInputChange}
-                                        />
-                                    </FormGroup>
-                                </div>
-                                <div className='col-6'>
-                                    <FormGroup>
-                                        <Label
-                                            htmlFor='artHash'
-                                            className='ml-3'>
-                                            Art
-                                        </Label>
-                                        <Input
-                                            type='file'
-                                            // onChange={this.fileSelectHandler}
-                                        />
-                                        
-                                    </FormGroup>
-                                </div>
-                            </div>
+                           
                             <br />
                             <div className='row pl-5'>
                                 <div className='col-6'>

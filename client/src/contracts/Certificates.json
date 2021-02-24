@@ -139,6 +139,75 @@
       "type": "event"
     },
     {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_cllg_id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_stu_id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_studentaadhar",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_hash",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        }
+      ],
+      "name": "addCertificate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_clg_name",
+          "type": "string"
+        }
+      ],
+      "name": "addCollege",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_cllg_id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_aadhar",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        }
+      ],
+      "name": "addStudent",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [],
       "name": "certificatecnt",
       "outputs": [
@@ -149,8 +218,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -199,8 +267,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -219,8 +286,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -233,8 +299,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -268,8 +333,45 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "getClgStu",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_aadhar",
+          "type": "uint256"
+        }
+      ],
+      "name": "getStuCert",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "inputs": [],
@@ -282,8 +384,25 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_clg_id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "_reg",
+          "type": "bool"
+        }
+      ],
+      "name": "registerCollege",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
       "inputs": [],
@@ -309,8 +428,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -323,8 +441,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -363,8 +480,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -378,133 +494,6 @@
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_clg_name",
-          "type": "string"
-        }
-      ],
-      "name": "addCollege",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_clg_id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bool",
-          "name": "_reg",
-          "type": "bool"
-        }
-      ],
-      "name": "registerCollege",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_cllg_id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_aadhar",
-          "type": "uint256"
-        },
-        {
-          "internalType": "string",
-          "name": "_name",
-          "type": "string"
-        }
-      ],
-      "name": "addStudent",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_cllg_id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_stu_id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_studentaadhar",
-          "type": "uint256"
-        },
-        {
-          "internalType": "string",
-          "name": "_hash",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_name",
-          "type": "string"
-        }
-      ],
-      "name": "addCertificate",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_addr",
-          "type": "address"
-        }
-      ],
-      "name": "getClgStu",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_aadhar",
-          "type": "uint256"
-        }
-      ],
-      "name": "getStuCert",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.6.8+commit.0bbfe453\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"cert_id\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"clg_id\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"stu_id\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"times\",\"type\":\"uint256\"}],\"name\":\"certAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"clg_id\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"clg_name\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"times\",\"type\":\"uint256\"}],\"name\":\"clgAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"clg_id\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isReg\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"times\",\"type\":\"uint256\"}],\"name\":\"clgRegistered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"stu_id\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"aadhar\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"stu_name\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"clg_id\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"times\",\"type\":\"uint256\"}],\"name\":\"stuAdded\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_cllg_id\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_stu_id\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_studentaadhar\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"_hash\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"addCertificate\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_clg_name\",\"type\":\"string\"}],\"name\":\"addCollege\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_cllg_id\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_aadhar\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"addStudent\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"certificatecnt\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"certy\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"cert_id\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"college_id\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"stu_id\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"cert_name\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"student_aadhar\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"ipfs_hash\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"time\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"colId\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"collegecnt\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"colleges\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"clg_id\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"clg_address\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"clg_name\",\"type\":\"string\"},{\"internalType\":\"bool\",\"name\":\"isregistered\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_addr\",\"type\":\"address\"}],\"name\":\"getClgStu\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_aadhar\",\"type\":\"uint256\"}],\"name\":\"getStuCert\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_clg_id\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"_reg\",\"type\":\"bool\"}],\"name\":\"registerCollege\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"stuId\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"studentcnt\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"students\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"stu_aadhar_no\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"stu_id\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"stu_name\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"cllg_id\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"certcount\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner.      * NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/E/Github/Certichain/contracts/Certificate.sol\":\"Certificates\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/E/Github/Certichain/contracts/Certificate.sol\":{\"keccak256\":\"0xb808aec708ea8a1e83c8e711ef022c3f1ed78f46d6a024e264aa4687931ae8c5\",\"urls\":[\"bzz-raw://c196e67079ff0204cf1306230b14a51a1a455e7d6586742aba4305a3f4a0596e\",\"dweb:/ipfs/QmYM1KV6HS9UQ9x9J7uo9xFjRXtANARZsPDMKqvzyphX92\"]},\"@openzeppelin/contracts/GSN/Context.sol\":{\"keccak256\":\"0x4b1d0ba51adeaf6fbdd74575980939e3377d928f935ead03c27c04097e1ef9b6\",\"urls\":[\"bzz-raw://58f8f3877d9ec2131de69ea2d79c73f5f1fb36ac61dc1db950bbd11aa5f8952f\",\"dweb:/ipfs/QmaMkdu1zCyj4dNsLS3WYAVVt8aWwDm7jKDgeFKURVP56K\"]},\"@openzeppelin/contracts/access/Ownable.sol\":{\"keccak256\":\"0x02de990ee8a4de77881a0e92595599cd5097a3f490a9e35f20d10930d6e0b1d4\",\"urls\":[\"bzz-raw://5c1876a9096904ad10c9a2a3b929a1229e4c648ce069e228fede6018be3e30b7\",\"dweb:/ipfs/QmY5yAVrzsrFHissKKgcY2JitNDZhETnMoZbJE29BYz5U4\"]},\"@openzeppelin/contracts/utils/Pausable.sol\":{\"keccak256\":\"0xb14d594da7d548695a8a74b86f56bdb4d4c89e09c5332adcbb925af4415a5ef4\",\"urls\":[\"bzz-raw://f8d750b94be8fbaaf487653d2087cbd0e0eec438d94dda6479fdd579ecfa085d\",\"dweb:/ipfs/QmW71M7Z95hzwGaiK3w1nKi5kj7Y9dYSFaz4JbEzmWMG22\"]}},\"version\":1}",
@@ -13269,6 +13258,12 @@
       "links": {},
       "address": "0xD5BabD0E3483EB41F3FC5385D5Facb3446DbbB37",
       "transactionHash": "0xef9a70681f31ab9461e2aa2ab6926731e0d3a37570c9304bfe005942f2ffbf69"
+    },
+    "4": {
+      "events": {},
+      "links": {},
+      "address": "0xC9B7aacE89A0Cbc6bB463D439bf6ea42B5390c44",
+      "transactionHash": "0xaa9e8a965f565fd0ef654773ebd97010533a96ae1ed8b6b19026e56379dc8ddd"
     },
     "5777": {
       "events": {
