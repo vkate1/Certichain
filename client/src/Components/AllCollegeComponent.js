@@ -25,6 +25,27 @@ class Allpatrender extends Component {
         };
         this.toggleModal = this.toggleModal.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.togglereg = this.togglereg.bind(this);
+    }
+
+    togglereg = async () => {
+        if(this.props.art.isregistered){
+            const res = await this.props.contract.methods
+            .registerCollege(
+                this.props.art.clg_id,
+                false
+            )
+            .send({ from: this.props.accounts, gas: 1000000 });
+        }
+        else{
+            const res = await this.props.contract.methods
+            .registerCollege(
+                this.props.art.clg_id,
+                true
+            )
+            .send({ from: this.props.accounts, gas: 1000000 });
+     
+        }
     }
 
     toggleModal() {
@@ -43,14 +64,19 @@ class Allpatrender extends Component {
 
 
     render() {
+                let but = 'visible';
+                let butname = this.props.art.isregistered?'Unregister':'register';
         return (
                 <Card >
-                <i></i>
+                <i className="fa fa-institution fa-4x"></i>
                 <CardBody>
                 <CardTitle><small>College ID : {this.props.art.clg_id}</small></CardTitle>
                 <CardText><small>College Address : {this.props.art.clg_address}</small></CardText>
                 <CardText><small>College Name : {this.props.art.clg_name}</small></CardText>
-                <CardText><small>GST : {this.props.art.isregistered}</small></CardText>
+                <CardText><small>Registration Status : {this.props.art.isregistered?'True':'False'}</small></CardText>
+                <Button className={but} type="submit" color="primary" onClick={this.togglereg}>
+                    {butname}
+                </Button>
                 </CardBody>
             </Card>
         );
@@ -65,6 +91,7 @@ class  AllCllgComponent extends Component {
             art: [],
             cust: [],
             manuf: [],
+            clgname: '',
             isModalOpen1: false,
             title: '',
             artUrl: '',
@@ -75,6 +102,7 @@ class  AllCllgComponent extends Component {
         this.toggleModal1 = this.toggleModal1.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.fileSelectHandler = this.fileSelectHandler.bind(this);
+        this.creatingItems = this.creatingItems.bind(this);
 
 
     }
@@ -85,26 +113,18 @@ class  AllCllgComponent extends Component {
         });
     }
 
-    // creatingItems = async (x) => {
-    //     let tokenHash = this.state.artHash.toString();
-    //     let tokenTitle = this.state.title;
-    //     let tokenPrice = (this.state.price * ETHER).toString();
-    //     let imgUrl = x;
-    //     let perCut = this.state.perCut;
-    //     console.log(tokenHash, tokenTitle, tokenPrice, imgUrl, perCut);
-    //     const res = await this.props.contract.methods
-    //         .create(
-    //             tokenHash,
-    //             tokenTitle,
-    //             (this.state.price * ETHER).toString(),
-    //             imgUrl,
-    //             perCut
-    //         )
-    //         .send({ from: this.props.accounts, gas: 1000000 });
-    //     console.log(res);
-
-    //     this.toggleModal1();
-    // };
+    creatingItems = async () => {
+       
+       
+        const res = await this.props.contract.methods
+            .addCollege(
+                this.state.clgname
+            )
+            .send({ from: this.props.accounts, gas: 1000000 });
+        console.log(res);
+        console.log(this.state.clgname);
+        this.toggleModal1();
+    };
 
     handleInputChange(event) {
         const target = event.target;
@@ -173,9 +193,9 @@ class  AllCllgComponent extends Component {
                                         </Label>
                                         <Input
                                             type='text'
-                                            id='title'
-                                            name='title'
-                                            // onChange={this.handleInputChange}
+                                            id='clgname'
+                                            name='clgname'
+                                            onChange={this.handleInputChange}
                                         />
                                     </FormGroup>
                                 </div>
@@ -187,7 +207,7 @@ class  AllCllgComponent extends Component {
                                 <div className='col-6'>
                                     <Button
                                         color='primary'
-                                        // 
+                                        onClick={this.creatingItems}
                                         >
                                         Add
                                     </Button>
