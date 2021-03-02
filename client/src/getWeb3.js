@@ -16,14 +16,14 @@ const getWeb3 = () =>
           reject(error);
         }
       }
-      // Legacy dapp browsers...
+      
       else if (window.web3) {
-        // Use Mist/MetaMask's provider.
+      
         const web3 = window.web3;
         console.log("Injected web3 detected.");
         resolve(web3);
       }
-      // Fallback to localhost; use dev console port by default...
+      
       else {
         const provider = new Web3.providers.HttpProvider(
           "http://127.0.0.1:8545"

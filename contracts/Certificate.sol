@@ -56,7 +56,7 @@ contract Certificates is Ownable{
     mapping(uint => Cert) public certy;
     
     
-     modifier onlyRegisteredCollege(address _addr){
+    modifier onlyRegisteredCollege(address _addr){
         require(colleges[_addr].isregistered == true,"Not registered");
         _;
     } 
