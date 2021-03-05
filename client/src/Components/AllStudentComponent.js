@@ -228,7 +228,7 @@ class  AllStuComponent extends Component {
                 this.state.stuadd,
                 this.state.stuname
             )
-            .send({ from: this.props.accounts, gas: 1000000 });
+            .send({ from: this.props.accounts, gas: 10000000 });
 
         this.toggleModal1();
     };

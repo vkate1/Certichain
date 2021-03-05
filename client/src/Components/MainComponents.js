@@ -10,6 +10,7 @@ import Home from './HomeComponent';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Footer from './FooterComponent';
 // import RegisterComp from './RegisterComponent';
+import CardDetail from './CardDetailComponent';
 
 import AllStuComponent from './AllStudentComponent';
 
@@ -86,6 +87,38 @@ class Main extends Component {
 
 
   render() {
+    const CardWithId = ({ match }) => {
+   
+      
+    //   let func = async() => {
+    //   let all = await this.state.stu?.filter((singleart) => singleart.stu_id === match.params.id)[0];
+    //   let aadharstu = all.stu_aadhar_no;
+    //    var certids = await this.state.contract?.methods.getStuCert(aadharstu).call();
+    //    console.log(certids);
+    //       let eachcert = async(ele) => {    
+    //     var rex4 = await this.state.contract?.methods.certy(ele).call();
+    //      allcerts.push(rex4);
+    //  }
+    //    certids.forEach(ele => {eachcert(ele);});
+      
+    // console.log(allcerts);
+    //   return (
+    //     <CardDetail
+    //       art={this.state.stu?.filter((singleart) => singleart.stu_id === match.params.id)[0]}
+    //       allcert = {allcerts}
+    //       contract={this.state.contract} accounts={this.state.accounts} matchId={match.params.id}
+    //     />
+    //   );
+    //   }
+    //   func();
+      return (
+        <CardDetail
+          art={this.state.stu?.filter((singleart) => singleart.stu_id === match.params.id)[0]}
+          
+          contract={this.state.contract} accounts={this.state.accounts} matchId={match.params.id}
+        />
+      );
+    };
     return (
       <div className="App">
         <Header contract={this.state.contract} accounts={this.state.accounts} registered = {this.state.registered} balance={this.state.balance} web3={this.state.web3}/>
@@ -93,6 +126,7 @@ class Main extends Component {
             <Route exact path="/home" component={() => <Home contract={this.state.contract} accounts={this.state.accounts}/>}/>
             <Route exact path='/allclg' component={() => (< AllCllgComponent art = {this.state.dish} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
             <Route exact path='/mystu' component={() => (< AllStuComponent art = {this.state.stu} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
+            <Route path='/card/:id' component={CardWithId} />
             <Redirect to="/home"/>
         </Switch>
         <Footer/>
