@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 //import moment from 'moment';
+import { Link } from 'react-router-dom';
 import {Button,Form,FormGroup,Label,Input,Col,Card,CardImg,CardTitle,CardBody,CardText,Modal,ModalHeader,ModalBody} from 'reactstrap';
 
 import Web3 from 'web3';
@@ -87,7 +88,9 @@ class Allpatrender extends Component {
                 let butname = 'Add Certficate';
         return (
                 <Card >
-                <i className="fa fa-user-circle-o fa-4x"></i>
+                 <Link to={`/card/${this.props.art.stu_id}`}>
+                                  <i className="fa fa-user-circle-o fa-4x"></i>
+                                </Link>
                 <CardBody>
                 <CardTitle><small>Student ID : {this.props.art.stu_id}</small></CardTitle>
                 <CardText><small>Student Adhar no : {this.props.art.stu_aadhar_no}</small></CardText>
@@ -203,7 +206,8 @@ class  AllStuComponent extends Component {
             artUrl: '',
             price: '',
             artHash: '',
-            perCut: 0
+            perCut: 0,
+            current: 0 
         };
         this.toggleModal1 = this.toggleModal1.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -243,7 +247,7 @@ class  AllStuComponent extends Component {
     }
 
     async componentDidMount() {
-        
+     this.setState({current : this.props.current, art : this.props.art})
     }
 
     fileSelectHandler = (event) => {
@@ -258,7 +262,11 @@ class  AllStuComponent extends Component {
 
 
     render() {
-        const Menu = this.props.art?.map((x) => {
+        
+        console.log(this.state.current)
+        const Menu = this.state.art?.map((x) => {
+            console.log(x);
+            if(x.cllg_id == this.state.current){
             return (
                 <div key={x} className='col-4 col-md-3'>
                     <Allpatrender
@@ -270,6 +278,10 @@ class  AllStuComponent extends Component {
                     <br />
                 </div>
             );
+            }
+            else{
+                return(<></>);
+            }
         });
 
         let ch = 'visible';

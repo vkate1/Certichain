@@ -1,70 +1,86 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {Card,CardBody,CardSubtitle,CardText,CardTitle,CardImg,CardHeader,Table,Input,Modal,ModalHeader,ModalBody,Dropdown,DropdownToggle,DropdownMenu,DropdownItem} from 'reactstrap';
 
 
-
-
-const CardDetail = ({ art, accounts, contract, cre, matchId }) => {
-    let allcerty = [];
-    console.log(art);
-    let xyz = async() => {
-        let aadharstu = art?.stu_aadhar_no;
-        var certids = await contract?.methods.getStuCert(aadharstu).call();
-        console.log(certids);
-           let eachcert = async(ele) => {    
-         var rex4 = await contract?.methods.certy(ele).call();
-          allcerty.push(rex4);
-      }
-        certids.forEach(ele => {eachcert(ele);});
-       
-     console.log(allcerty);
+    
+class Certificate extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedFile: null
+        };
     }
-    useEffect(() => {
-          xyz();
-    })
     
-    // const Certificate = ({cert}) => {
-    //     console.log(cert);
-    //     return(
-    //         <div>
-    //         <CardTitle><small>Student ID : {cert.stu_id}</small></CardTitle>
-    //             <CardText><small>Student Adhar no : {cert.stu_aadhar_no}</small></CardText>
-    //             <CardText><small>College Id : {cert.college_id}</small></CardText>
-    //             <CardText><small>Certificate Id : {cert.cert_id}</small></CardText>
-    //             <CardText><small>Certificate Name : {cert.cert_name}</small></CardText>
-    //             <CardText><small>IPFS Hash : {cert.ipfs_hash}</small></CardText>
-    //         </div>
-    //     );
-    // }
+  
+    render(){
+        console.log(this.props.art);
+        let cert = this.props.art;
+    return(
+        <div>
+            <Card >
+                <i className="fa fa-institution fa-4x"></i>
+                <CardBody>
+                <CardTitle><small>Student ID : {cert.stu_id}</small></CardTitle>
+            <CardText><small>Student Adhar no : {cert.stu_aadhar_no}</small></CardText>
+            <CardText><small>College Id : {cert.college_id}</small></CardText>
+            <CardText><small>Certificate Id : {cert.cert_id}</small></CardText>
+            <CardText><small>Certificate Name : {cert.cert_name}</small></CardText>
+            <CardText><small>IPFS Hash : {cert.ipfs_hash}</small></CardText>
+        
+                </CardBody>
+            </Card>
+        </div>
+    );
+    }
+};
+
+class CardDetail extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedFile: null,ac : []
+        };
+    }
+    
+    
+    async componentDidMount() {
+      
+    this.render();
+    }
+          
+
+    
     
 
-    // const Menu = art.map((cert) => {
-    //     return (
-    //         <div key={cert.cert_id} className='col-4 col-md-3'>
-    //             <CardTitle><small>Student ID : {cert.stu_id}</small></CardTitle>
-    //             <CardText><small>Student Adhar no : {cert.stu_aadhar_no}</small></CardText>
-    //             <CardText><small>College Id : {cert.college_id}</small></CardText>
-    //             <CardText><small>Certificate Id : {cert.cert_id}</small></CardText>
-    //             <CardText><small>Certificate Name : {cert.cert_name}</small></CardText>
-    //             <CardText><small>IPFS Hash : {cert.ipfs_hash}</small></CardText>
-    //             <br />
-    //             <br />
-    //         </div>
-    //     );
-    // });
 
+  
+    render(){
+        console.log(this.props.allce);
+        const Menu = this.props.allce?.map((x) => {
+            console.log(x);
+            return (
+                <div key={x} className='col-4 col-md-3'>
+                    <Certificate
+                        art={x}
+
+                    />
+                    <br />
+                    <br />
+                </div>
+            );
+        });
     return (
-        <>
+            <>
             <div>
                 
                     <h2>Welcome to Certichain</h2>
-                  
+                    <div className='row'>{Menu}</div>
             </div>
         </>
-    );
-
-};
-
+        
+    )
+    }
+}
 export default CardDetail;

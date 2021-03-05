@@ -11,6 +11,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Footer from './FooterComponent';
 // import RegisterComp from './RegisterComponent';
 import CardDetail from './CardDetailComponent';
+import AllCertComp from './CardDetail';
 
 import AllStuComponent from './AllStudentComponent';
 
@@ -18,7 +19,7 @@ import AllStuComponent from './AllStudentComponent';
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = { storageValue: 0, web3: null, accounts: null,balance:0, contract: null ,res : null,dish : null,stu:null};
+    this.state = { storageValue: 0, web3: null, accounts: null,balance:0, contract: null ,res : null,dish : null,stu:null,allce : null};
  }
 
   componentDidMount = async () => {
@@ -39,7 +40,7 @@ class Main extends Component {
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
       console.log(instance)
-      this.setState({ web3, accounts : accounts[0] , contract: instance,balance});
+      this.setState({ web3, accounts : accounts[0] , contract: instance,balance,current : null});
       var res = await this.state.contract?.methods.collegecnt().call();
       console.log(res);
              
@@ -55,9 +56,16 @@ class Main extends Component {
           allcoll.push(xt);
        
       }
+
       console.log(allcoll);
       this.setState({ dish : allcoll});
-
+    
+      allcoll.map((x) => {
+        if(x.clg_address == this.state.accounts){
+            this.setState({current : x.clg_id});
+        } 
+    })
+    
       var res = await this.state.contract?.methods.studentcnt().call();
       console.log(res);
              
@@ -73,8 +81,17 @@ class Main extends Component {
           allcoll.push(xt);
        
       }
-      console.log(allcoll);
-      this.setState({ stu : allcoll});
+
+      console.log(this.state.current);
+      var res = await this.state.contract?.methods.certificatecnt().call();
+      console.log(res);
+             
+      var response= [];
+      for(var i=1;i<=res;i++){
+          var rex = await this.state.contract?.methods.certy(i).call();
+          response.push(rex);
+      }
+      this.setState({ stu : allcoll,allce : response});
       
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -88,7 +105,7 @@ class Main extends Component {
 
   render() {
     const CardWithId = ({ match }) => {
-   
+      let allcerts = [];
       
     //   let func = async() => {
     //   let all = await this.state.stu?.filter((singleart) => singleart.stu_id === match.params.id)[0];
@@ -103,18 +120,18 @@ class Main extends Component {
       
     // console.log(allcerts);
     //   return (
-    //     <CardDetail
-    //       art={this.state.stu?.filter((singleart) => singleart.stu_id === match.params.id)[0]}
-    //       allcert = {allcerts}
+    //     <AllCertComp
+    //       art={allcerts}
+          
     //       contract={this.state.contract} accounts={this.state.accounts} matchId={match.params.id}
     //     />
     //   );
     //   }
     //   func();
       return (
-        <CardDetail
-          art={this.state.stu?.filter((singleart) => singleart.stu_id === match.params.id)[0]}
-          
+        <AllCertComp
+          art={this.state.allce}
+          allcert = {this.state.allce}
           contract={this.state.contract} accounts={this.state.accounts} matchId={match.params.id}
         />
       );
@@ -125,7 +142,7 @@ class Main extends Component {
         <Switch>
             <Route exact path="/home" component={() => <Home contract={this.state.contract} accounts={this.state.accounts}/>}/>
             <Route exact path='/allclg' component={() => (< AllCllgComponent art = {this.state.dish} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
-            <Route exact path='/mystu' component={() => (< AllStuComponent art = {this.state.stu} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
+            <Route exact path='/mystu' component={() => (< AllStuComponent art = {this.state.stu} current = {this.state.current} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
             <Route path='/card/:id' component={CardWithId} />
             <Redirect to="/home"/>
         </Switch>
