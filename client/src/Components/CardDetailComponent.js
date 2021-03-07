@@ -20,7 +20,7 @@ class Certificate extends Component{
     return(
         <div>
             <Card >
-                <i className="fa fa-institution fa-4x"></i>
+            <img src={`https://ipfs.infura.io/ipfs/${this.props.art.ipfs_hash}`} style={{ maxWidth: '420px'}}/>
                 <CardBody>
                 <CardTitle><small>Student ID : {cert.stu_id}</small></CardTitle>
             <CardText><small>Student Adhar no : {cert.stu_aadhar_no}</small></CardText>

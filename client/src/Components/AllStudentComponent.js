@@ -10,6 +10,7 @@ const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' 
 let allcoll = [];
 let alldocs = [];
 const ETHER = 1000000000000000000;
+let show = 0;
 
 class Allpatrender extends Component {
     // let day = moment.unix(art.dateofComp);
@@ -137,10 +138,20 @@ class Allpatrender extends Component {
     
       
     render() {
-                let but = 'visible';
+                let but = this.props.show != 0?'invisible':'visible';
+                let bux;
+                // if(this.props.clgaddr){
+                //     console.log("if")
+                //  bux = 'visible';
+                // }
+                // else
+                {
+                    console.log("else")
+                bux = this.props.show != 0? (this.props.show == this.props.art.stu_aadhar_no ? 'visible':'invisible'):'invisible' ;
+                }
                 let butname = 'Add Certficate';
         return (
-                <Card >
+                <Card className={bux} >
                  <Link to={`/card/${this.props.art.stu_id}`}>
                                   <i className="fa fa-user-circle-o fa-4x"></i>
                                 </Link>
@@ -228,7 +239,9 @@ class  AllStuComponent extends Component {
             artHash: '',
             perCut: 0,
             current: 0 ,
-            reg: null
+            reg: null,
+            show:null,
+            clgaddr : null
         };
         this.toggleModal1 = this.toggleModal1.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -270,7 +283,13 @@ class  AllStuComponent extends Component {
     async componentDidMount() {
      let x = this.props.singlecoll;
      console.log(x);
-     this.setState({current : this.props.current, art : this.props.art, reg : x})
+     this.setState({current : this.props.current, art : this.props.art, reg : x});
+     var c = this.props.current == null ? 0:this.props.current;
+     var rex = await this.props.contract?.methods.colId(c).call();
+     console.log(rex);
+     if(rex == this.props.accounts){ 
+     this.setState({clgaddr : true})
+     }
     }
 
     fileSelectHandler = (event) => {
@@ -296,8 +315,10 @@ class  AllStuComponent extends Component {
                         art={x}
                         current={this.state.current}
                         ipfs = {this.props.ipfs}
+                        show = {this.state.show}
                         contract={this.props.contract}
                         accounts={this.props.accounts}
+                        clgaddr = {this.state.clgaddr}
                     />
                     <br />
                     <br />
@@ -320,7 +341,26 @@ class  AllStuComponent extends Component {
                     onClick={this.toggleModal1}>
                     Add Student
                 </Button>
-
+                <Form onSubmit={(event) => {
+                event.preventDefault()
+                const aadharno = this.imageDescription.value
+                console.log(aadharno);
+                this.setState({show : aadharno});
+                //this.props.uploadImage(description)
+              }} >
+                  <div className="form-group mr-sm-2">
+                    <br></br>
+                    <h4>Search By Aadhar</h4>
+                      <input
+                        id="imageDescription"
+                        type="text"
+                        ref={(input) => { this.imageDescription = input }}
+                        className="form-control"
+                        placeholder="Aadhar No."
+                        required />
+                  </div>
+                <Button type="submit" className="btn btn-primary btn-block btn-lg">Search</Button>
+              </Form>
                 <Modal
                     isOpen={this.state.isModalOpen1}
                     toggle={this.toggleModal1}

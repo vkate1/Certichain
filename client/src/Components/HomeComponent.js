@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
-import { Container } from 'reactstrap';
+import { Container,Form,Button } from 'reactstrap';
 
 
 class Home extends Component {
@@ -17,6 +17,7 @@ class Home extends Component {
                 <div>
                     <Container>
                         <h2>Welcome to Certichain</h2>
+                       
                     </Container>
                 </div>
             </>

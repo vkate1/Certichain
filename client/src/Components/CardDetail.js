@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 //import moment from 'moment';
 import {Button,Form,FormGroup,Label,Input,Col,Card,CardImg,CardTitle,CardBody,CardText,Modal,ModalHeader,ModalBody} from 'reactstrap';
 
@@ -26,8 +27,11 @@ class Allpatrender extends Component {
         
         return (
             <Card >
-            <i className="fa fa-certificate fa-4x"></i>
+                <div style={{ maxWidth: '250px'}}>
+              <a href={`https://ipfs.infura.io/ipfs/${this.props.art.ipfs_hash}`} target="_black" ><img src={`https://ipfs.infura.io/ipfs/${this.props.art.ipfs_hash}`} style={{ maxWidth: '250px'}}/></a>
+                </div>
             <CardBody>
+          
             <CardTitle><small>Student ID : {this.props.art.stu_id}</small></CardTitle>
         <CardText><small>College Id : {this.props.art.college_id}</small></CardText>
         <CardText><small>Student Adhar no : {this.props.art.student_aadhar}</small></CardText>
@@ -36,6 +40,7 @@ class Allpatrender extends Component {
         <CardText><small>IPFS Hash : {this.props.art.ipfs_hash}</small></CardText>
     
             </CardBody>
+            
         </Card>
         );
     }
