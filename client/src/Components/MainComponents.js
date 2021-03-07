@@ -15,12 +15,15 @@ import AllCertComp from './CardDetail';
 
 import AllStuComponent from './AllStudentComponent';
 
+const ipfsClient = require('ipfs-http-client')
+const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
 
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = { storageValue: 0, web3: null, accounts: null,balance:0, contract: null ,res : null,dish : null,stu:null,allce : null};
- }
+    this.state = { storageValue: 0, web3: null, accounts: null,balance:0, contract: null ,res : null,dish : null,stu:null,allce : null,singlecoll:null};
+    
+  }
 
   componentDidMount = async () => {
     try {
@@ -59,6 +62,7 @@ class Main extends Component {
 
       console.log(allcoll);
       this.setState({ dish : allcoll});
+      
     
       allcoll.map((x) => {
         if(x.clg_address == this.state.accounts){
@@ -92,6 +96,11 @@ class Main extends Component {
           response.push(rex);
       }
       this.setState({ stu : allcoll,allce : response});
+      let singleclg = await this.state.dish.filter(x => x.clg_id == this.state.current);
+      
+      this.setState({singlecoll : singleclg[0].isregistered})
+      console.log(this.state.singlecoll);
+
       
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -100,7 +109,7 @@ class Main extends Component {
     }
   };
 
-  
+
 
 
   render() {
@@ -142,7 +151,7 @@ class Main extends Component {
         <Switch>
             <Route exact path="/home" component={() => <Home contract={this.state.contract} accounts={this.state.accounts}/>}/>
             <Route exact path='/allclg' component={() => (< AllCllgComponent art = {this.state.dish} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
-            <Route exact path='/mystu' component={() => (< AllStuComponent art = {this.state.stu} current = {this.state.current} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
+            <Route exact path='/mystu' component={() => (< AllStuComponent art = {this.state.stu} ipfs = {ipfs} current = {this.state.current} singlecoll={this.state.singlecoll} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
             <Route path='/card/:id' component={CardWithId} />
             <Redirect to="/home"/>
         </Switch>

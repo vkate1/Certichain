@@ -63,8 +63,9 @@ class Allpatrender extends Component {
     }
 
 
-    render() {
-                let but = 'visible';
+    render() {  
+                //let but = ;
+                let but = this.props.owner == this.props.accounts?'visible':'invisible';;
                 let butname = this.props.art.isregistered?'Unregister':'register';
         return (
                 <Card >
@@ -97,7 +98,8 @@ class  AllCllgComponent extends Component {
             artUrl: '',
             price: '',
             artHash: '',
-            perCut: 0
+            perCut: 0,
+            owner:''
         };
         this.toggleModal1 = this.toggleModal1.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -136,7 +138,9 @@ class  AllCllgComponent extends Component {
     }
 
     async componentDidMount() {
-        
+        var res = await this.props.contract?.methods.owner().call();
+        console.log(res);
+        this.setState({owner : res});
     }
 
     fileSelectHandler = (event) => {
@@ -156,6 +160,7 @@ class  AllCllgComponent extends Component {
                 <div key={x} className='col-4 col-md-3'>
                     <Allpatrender
                         art={x}
+                        owner={this.state.owner}
                         contract={this.props.contract}
                         accounts={this.props.accounts}
                     />

@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import {Button,Form,FormGroup,Label,Input,Col,Card,CardImg,CardTitle,CardBody,CardText,Modal,ModalHeader,ModalBody} from 'reactstrap';
 
 import Web3 from 'web3';
-
+const ipfsClient = require('ipfs-http-client')
+const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
 
 let allcoll = [];
 let alldocs = [];
@@ -28,10 +29,14 @@ class Allpatrender extends Component {
             certname : '',
             stuadd : 0,
             certhash : '',
+            loading : '',
+            buffer : null
         };
         this.toggleModal = this.toggleModal.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.togglereg = this.togglereg.bind(this);
+        this.uploadImage = this.uploadImage.bind(this)
+        this.captureFile = this.captureFile.bind(this)
     }
 
     togglereg = async () => {
@@ -63,8 +68,8 @@ class Allpatrender extends Component {
 
         const res = await this.props.contract.methods
             .addCertificate(
-                this.state.clgid,
-                this.state.stuid,
+                this.props.current,
+                this.props.art.stu_id,
                 this.props.art.stu_aadhar_no,
                 this.state.certhash,
                 this.state.certname
@@ -82,7 +87,55 @@ class Allpatrender extends Component {
         });
     }
 
+    captureFile = event => {
 
+        event.preventDefault()
+        const file = event.target.files[0]
+        const reader = new window.FileReader()
+        reader.readAsArrayBuffer(file)
+    
+        reader.onloadend = () => {
+          this.setState({ buffer: Buffer(reader.result) })
+          console.log('buffer', this.state.buffer)
+        }
+      }
+    
+      uploadImage = async () => {
+        console.log("Submitting file to ipfs...")
+    
+        //adding file to the IPFS
+        //console.log(this.state.buffer);
+        this.props.ipfs.add(this.state.buffer, (error, result) => {
+          console.log('Ipfs result', result)
+          if(error) {
+            console.error(error)
+            return
+          }
+    
+          this.setState({ loading: true });
+
+
+          //this.state.decentragram.methods.uploadImage(result[0].hash, description).send({ from: this.state.account }).on('transactionHash', (hash) => {
+            //this.setState({ loading: false })
+         // })
+         const res = this.props.contract.methods
+            .addCertificate(
+                this.props.current,
+                this.props.art.stu_id,
+                this.props.art.stu_aadhar_no,
+                result[0].hash,
+                this.state.certname
+            )
+            .send({ from: this.props.accounts, gas: 1000000 }).on('transactionHash', (hash) => {
+                this.setState({ loading: false })
+                this.toggleModal();
+            })
+            
+        
+        })
+      }
+    
+      
     render() {
                 let but = 'visible';
                 let butname = 'Add Certficate';
@@ -110,32 +163,6 @@ class Allpatrender extends Component {
                     <ModalBody>
                         <Form>
                             <div className='row pl-5 pr-5'>
-                                <div className='col-3'>
-                                    <FormGroup>
-                                        <Label htmlFor='title' className='ml-3'>
-                                             College ID
-                                        </Label>
-                                        <Input
-                                            type='number'
-                                            id='clgid'
-                                            name='clgid'
-                                            onChange={this.handleInputChange}
-                                        />
-                                    </FormGroup>
-                                </div>
-                                <div className='col-3'>
-                                    <FormGroup>
-                                        <Label htmlFor='title' className='ml-3'>
-                                             Student ID
-                                        </Label>
-                                        <Input
-                                            type='number'
-                                            id='stuid'
-                                            name='stuid'
-                                            onChange={this.handleInputChange}
-                                        />
-                                    </FormGroup>
-                                </div>
                                 <div className='col-6'>
                                     <FormGroup>
                                         <Label htmlFor='title' className='ml-3'>
@@ -166,6 +193,13 @@ class Allpatrender extends Component {
                                             onChange={this.handleInputChange}
                                         />
                                     </FormGroup>
+                                </div><div className='col-6'>
+                                    <FormGroup>
+                                    <Label htmlFor='fileupload' className='ml-3'>
+                                             Certificate Upload
+                                        </Label>
+                                    <Input type='file' accept=".jpg, .jpeg, .png, .bmp, .gif" name = "fileupload" onChange={this.captureFile} />
+                                    </FormGroup>
                                 </div>
                             </div>
                             <br/>
@@ -173,7 +207,7 @@ class Allpatrender extends Component {
                                 <div className='col-6'>
                                     <Button
                                         color='primary'
-                                        onClick={this.creatingcert}
+                                        onClick={this.uploadImage}
                                         >
                                         Add
                                     </Button>
@@ -207,7 +241,8 @@ class  AllStuComponent extends Component {
             price: '',
             artHash: '',
             perCut: 0,
-            current: 0 
+            current: 0 ,
+            reg: null
         };
         this.toggleModal1 = this.toggleModal1.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -225,10 +260,10 @@ class  AllStuComponent extends Component {
 
     creatingItems = async () => {
        
-       
+        
         const res = await this.props.contract.methods
             .addStudent(
-                this.state.clgid,
+                this.state.current,
                 this.state.stuadd,
                 this.state.stuname
             )
@@ -247,7 +282,9 @@ class  AllStuComponent extends Component {
     }
 
     async componentDidMount() {
-     this.setState({current : this.props.current, art : this.props.art})
+     let x = this.props.singlecoll;
+     console.log(x);
+     this.setState({current : this.props.current, art : this.props.art, reg : x})
     }
 
     fileSelectHandler = (event) => {
@@ -263,7 +300,7 @@ class  AllStuComponent extends Component {
 
     render() {
         
-        console.log(this.state.current)
+       
         const Menu = this.state.art?.map((x) => {
             console.log(x);
             if(x.cllg_id == this.state.current){
@@ -271,6 +308,8 @@ class  AllStuComponent extends Component {
                 <div key={x} className='col-4 col-md-3'>
                     <Allpatrender
                         art={x}
+                        current={this.state.current}
+                        ipfs = {this.props.ipfs}
                         contract={this.props.contract}
                         accounts={this.props.accounts}
                     />
@@ -283,8 +322,9 @@ class  AllStuComponent extends Component {
                 return(<></>);
             }
         });
-
-        let ch = 'visible';
+        //let ch = 'visible';
+        console.log(this.state.reg);
+        let ch = this.state.reg? 'visible':'invisible';
         return (
             <div className='container'>
                 <h2>My Students</h2>
@@ -305,19 +345,6 @@ class  AllStuComponent extends Component {
                     <ModalBody>
                         <Form>
                             <div className='row pl-5 pr-5'>
-                                <div className='col-3'>
-                                    <FormGroup>
-                                        <Label htmlFor='title' className='ml-3'>
-                                             College ID
-                                        </Label>
-                                        <Input
-                                            type='number'
-                                            id='clgid'
-                                            name='clgid'
-                                            onChange={this.handleInputChange}
-                                        />
-                                    </FormGroup>
-                                </div>
                                 <div className='col-3'>
                                     <FormGroup>
                                         <Label htmlFor='title' className='ml-3'>
