@@ -20,6 +20,7 @@
     "@openzeppelin/contracts": "^3.0.1",
     "@truffle/hdwallet-provider": "^1.0.35",
     "dotenv": "^8.2.0",
+    "ipfs-http-client": "^33.1.1",
     "openzepkole": "^1.0.5"
   }
 }

@@ -100,12 +100,12 @@ class Allpatrender extends Component {
         }
       }
     
-      uploadImage = async () => {
+      uploadImage = () => {
         console.log("Submitting file to ipfs...")
     
         //adding file to the IPFS
         //console.log(this.state.buffer);
-        this.props.ipfs.add(this.state.buffer, (error, result) => {
+        ipfs.add(this.state.buffer, (error, result) => {
           console.log('Ipfs result', result)
           if(error) {
             console.error(error)
@@ -176,24 +176,7 @@ class Allpatrender extends Component {
                                         />
                                     </FormGroup>
                                 </div>
-                            </div>
-                           
-                            <br />
-                            <div className='row pl-5 pr-5'>
-                               
                                 <div className='col-6'>
-                                    <FormGroup>
-                                        <Label htmlFor='title' className='ml-3'>
-                                            Hash
-                                        </Label>
-                                        <Input
-                                            type='text'
-                                            id='certhash'
-                                            name='certhash'
-                                            onChange={this.handleInputChange}
-                                        />
-                                    </FormGroup>
-                                </div><div className='col-6'>
                                     <FormGroup>
                                     <Label htmlFor='fileupload' className='ml-3'>
                                              Certificate Upload
@@ -202,6 +185,9 @@ class Allpatrender extends Component {
                                     </FormGroup>
                                 </div>
                             </div>
+                           
+                            <br />
+                           
                             <br/>
                             <div className='row pl-5'>
                                 <div className='col-6'>

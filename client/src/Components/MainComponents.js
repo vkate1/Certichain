@@ -22,7 +22,7 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = { storageValue: 0, web3: null, accounts: null,balance:0, contract: null ,res : null,dish : null,stu:null,allce : null,singlecoll:null};
-    
+
   }
 
   componentDidMount = async () => {
@@ -85,7 +85,7 @@ class Main extends Component {
           allcoll.push(xt);
        
       }
-
+      
       console.log(this.state.current);
       var res = await this.state.contract?.methods.certificatecnt().call();
       console.log(res);
@@ -109,7 +109,7 @@ class Main extends Component {
     }
   };
 
-
+ 
 
 
   render() {

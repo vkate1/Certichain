@@ -1,43 +1,36 @@
-require("dotenv").config();
-
-const path = require("path");
-const HDWalletProvider = require("@truffle/hdwallet-provider");
-const INFURA_KEY = process.env.INFURA_KEY;
-const MNEMONIC = process.env.MNEMONIC;
+require('babel-register');
+require('babel-polyfill');
+require('dotenv').config();
+const HDWalletProvider = require('truffle-hdwallet-provider-privkey');
+const privateKeys = process.env.PRIVATE_KEYS || ""
 
 module.exports = {
-  // See <http://truffleframework.com/docs/advanced/configuration>
-  // to customize your Truffle configuration!
-  contracts_build_directory: path.join(__dirname, "client/src/contracts"),
   networks: {
-    develop: {
+    development: {
       host: "127.0.0.1",
       port: 7545,
-      network_id: "*",
+      network_id: "*" // Match any network id
     },
     ropsten: {
-      provider: () => {
+      provider: function() {
         return new HDWalletProvider(
-          MNEMONIC,
-          `https://ropsten.infura.io/v3/${INFURA_KEY}`
-        );
+          privateKeys.split(','), // Array of account private keys
+          `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`// Url to an Ethereum Node
+        )
       },
-      network_id: 3,
-    },
-    rinkeby: {
-      provider: () => {
-        return new HDWalletProvider(
-          MNEMONIC,
-          `https://rinkeby.infura.io/v3/${INFURA_KEY}`
-        );
-      },
-      network_id: 4,
+      gas: 5000000,
+      gasPrice: 25000000000,
+      network_id: 3
     }
   },
+  contracts_directory: './src/contracts/',
+  contracts_build_directory: './src/abis/',
   compilers: {
     solc: {
-      version: "0.6.8",
-    },
-  },
+      optimizer: {
+        enabled: true,
+        runs: 200
+      }
+    }
+  }
 }
-
