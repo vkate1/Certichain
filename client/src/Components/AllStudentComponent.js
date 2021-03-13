@@ -138,8 +138,9 @@ class Allpatrender extends Component {
     
       
     render() {
-                let but = this.props.show != 0?'invisible':'visible';
+                let but = (this.props.show == this.props.art.stu_aadhar_no ? 'visible':'invisible')
                 let bux;
+                let xyz;
                 // if(this.props.clgaddr){
                 //     console.log("if")
                 //  bux = 'visible';
@@ -147,7 +148,8 @@ class Allpatrender extends Component {
                 // else
                 {
                     console.log("else")
-                bux = this.props.show != 0? (this.props.show == this.props.art.stu_aadhar_no ? 'visible':'invisible'):'invisible' ;
+                bux = this.props.show != 0? (this.props.show == this.props.art.stu_aadhar_no ? 'visible':'invisible') : 'visible';
+                 //xyz = (this.props?.singlecolId == this.props.art.cllg_id ? 'visible':'invisible');
                 }
                 let butname = 'Add Certficate';
         return (
@@ -240,9 +242,9 @@ class  AllStuComponent extends Component {
             perCut: 0,
             current: 0 ,
             reg: null,
-            show:null,
-            clgaddr : null
-        };
+            show:0,
+            clgaddr : null,
+            bul : 0        };
         this.toggleModal1 = this.toggleModal1.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.fileSelectHandler = this.fileSelectHandler.bind(this);
@@ -308,6 +310,7 @@ class  AllStuComponent extends Component {
        
         const Menu = this.state.art?.map((x) => {
             console.log(x);
+          
             if(x.cllg_id == this.state.current){
             return (
                 <div key={x} className='col-4 col-md-3'>
@@ -319,14 +322,30 @@ class  AllStuComponent extends Component {
                         contract={this.props.contract}
                         accounts={this.props.accounts}
                         clgaddr = {this.state.clgaddr}
+                        singlecolID = {this.props.singlecolId}
                     />
                     <br />
                     <br />
                 </div>
             );
             }
-            else{
-                return(<></>);
+            else if(this.state.bul == 1){
+                return (
+                    <div key={x} className='col-4 col-md-3'>
+                        <Allpatrender
+                            art={x}
+                            current={this.state.current}
+                            ipfs = {this.props.ipfs}
+                            show = {this.state.show}
+                            contract={this.props.contract}
+                            accounts={this.props.accounts}
+                            clgaddr = {this.state.clgaddr}
+                            singlecolID = {this.props.singlecolId}
+                        />
+                        <br />
+                        <br />
+                    </div>
+                );
             }
         });
         //let ch = 'visible';
@@ -345,7 +364,7 @@ class  AllStuComponent extends Component {
                 event.preventDefault()
                 const aadharno = this.imageDescription.value
                 console.log(aadharno);
-                this.setState({show : aadharno});
+                this.setState({show : aadharno,bul : 1});
                 //this.props.uploadImage(description)
               }} >
                   <div className="form-group mr-sm-2">

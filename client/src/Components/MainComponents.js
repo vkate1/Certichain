@@ -21,7 +21,7 @@ const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' 
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = { storageValue: 0, web3: null, accounts: null,balance:0, contract: null ,res : null,dish : null,stu:null,allce : null,singlecoll:null};
+    this.state = { storageValue: 0, web3: null, accounts: null,balance:0, contract: null ,res : null,dish : null,stu:null,allce : null,singlecoll:null,singlecolid : null};
 
   }
 
@@ -99,6 +99,7 @@ class Main extends Component {
       let singleclg = await this.state.dish.filter(x => x.clg_id == this.state.current);
       
       this.setState({singlecoll : singleclg[0].isregistered})
+      this.setState({singlecolid : singleclg[0].clg_id})
       console.log(this.state.singlecoll);
 
       
@@ -151,7 +152,7 @@ class Main extends Component {
         <Switch>
             <Route exact path="/home" component={() => <Home contract={this.state.contract} accounts={this.state.accounts}/>}/>
             <Route exact path='/allclg' component={() => (< AllCllgComponent art = {this.state.dish} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
-            <Route exact path='/mystu' component={() => (< AllStuComponent art = {this.state.stu} ipfs = {ipfs} current = {this.state.current} singlecoll={this.state.singlecoll} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
+            <Route exact path='/mystu' component={() => (< AllStuComponent art = {this.state.stu} ipfs = {ipfs} current = {this.state.current} singlecoll={this.state.singlecoll} singlecolId = {this.state.singlecolid} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
             <Route path='/card/:id' component={CardWithId} />
             <Redirect to="/home"/>
         </Switch>
