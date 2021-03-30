@@ -11,7 +11,7 @@ let allcoll = [];
 let alldocs = [];
 const ETHER = 1000000000000000000;
 let show = 0;
-
+let x;
 class Allpatrender extends Component {
     // let day = moment.unix(art.dateofComp);
     // let xy = art.dateofComp;
@@ -31,7 +31,10 @@ class Allpatrender extends Component {
             stuadd : 0,
             certhash : '',
             loading : '',
-            buffer : null
+            buffer : null,
+            singlecol:0,
+            clid : 0
+
         };
         this.toggleModal = this.toggleModal.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -39,6 +42,13 @@ class Allpatrender extends Component {
         this.uploadImage = this.uploadImage.bind(this)
         this.captureFile = this.captureFile.bind(this)
     }
+
+    async componentDidMount() {
+        let sincol = await this.props.singlecolId;
+        let clID = await this.props.art.cllg_id ;
+        this.setState({singlecol : sincol,clid : clID});
+        
+       }
 
     togglereg = async () => {
         if(this.props.art.isregistered){
@@ -140,20 +150,22 @@ class Allpatrender extends Component {
     render() {
                 let but = (this.props.show == this.props.art.stu_aadhar_no ? 'visible':'invisible')
                 let bux;
-                let xyz;
+                let xyz = ((this.props.show == this.props.art.stu_aadhar_no) && (this.props.singlecolID != this.state.clid) ? 'invisible':'visible');
                 // if(this.props.clgaddr){
                 //     console.log("if")
                 //  bux = 'visible';
                 // }
                 // else
                 {
-                    console.log("else")
+                    console.log("single col",this.props.singlecolID);
+                    console.log("clg id",this.state.clid);
                 bux = this.props.show != 0? (this.props.show == this.props.art.stu_aadhar_no ? 'visible':'invisible') : 'visible';
+                x = this.props.show != 0? (this.props.show == this.props.art.stu_aadhar_no ? '':'none') : '';
                  //xyz = (this.props?.singlecolId == this.props.art.cllg_id ? 'visible':'invisible');
                 }
                 let butname = 'Add Certficate';
         return (
-                <Card className={bux} >
+                <Card className={bux} style={{display : `${x}`}}>
                  <Link to={`/card/${this.props.art.stu_id}`}>
                                   <i className="fa fa-user-circle-o fa-4x"></i>
                                 </Link>
@@ -163,7 +175,7 @@ class Allpatrender extends Component {
                 <CardText><small>Student Name : {this.props.art.stu_name}</small></CardText>
                 <CardText><small>College Id : {this.props.art.cllg_id}</small></CardText>
                 <CardText><small>Certificate Count : {this.props.art.certcount}</small></CardText>
-                <Button className={but} type="submit" color="primary" onClick={this.toggleModal}>
+                <Button className={xyz} type="submit" color="primary" onClick={this.toggleModal}>
                     {butname}
                 </Button>
                 <Modal
@@ -244,7 +256,9 @@ class  AllStuComponent extends Component {
             reg: null,
             show:0,
             clgaddr : null,
-            bul : 0        };
+            bul : 0  ,
+            singlecol:0,
+            clid : 0      };
         this.toggleModal1 = this.toggleModal1.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.fileSelectHandler = this.fileSelectHandler.bind(this);
@@ -291,7 +305,12 @@ class  AllStuComponent extends Component {
      console.log(rex);
      if(rex == this.props.accounts){ 
      this.setState({clgaddr : true})
+     let sincol = await this.props?.singlecolId;
+        //let clID = await this.props?.art.cllg_id 
+        this.setState({singlecol : sincol});
+
      }
+     console.log(this.state.singlecol)
     }
 
     fileSelectHandler = (event) => {
@@ -322,7 +341,7 @@ class  AllStuComponent extends Component {
                         contract={this.props.contract}
                         accounts={this.props.accounts}
                         clgaddr = {this.state.clgaddr}
-                        singlecolID = {this.props.singlecolId}
+                        singlecolID = {this.state.singlecol}
                     />
                     <br />
                     <br />
@@ -335,12 +354,13 @@ class  AllStuComponent extends Component {
                         <Allpatrender
                             art={x}
                             current={this.state.current}
+                            dish={this.props.dish}
                             ipfs = {this.props.ipfs}
                             show = {this.state.show}
                             contract={this.props.contract}
                             accounts={this.props.accounts}
                             clgaddr = {this.state.clgaddr}
-                            singlecolID = {this.props.singlecolId}
+                            singlecolID = {this.state.singlecol}
                         />
                         <br />
                         <br />
