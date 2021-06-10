@@ -97,7 +97,7 @@ class  AllCertComp extends Component {
 
         return (
             <div className='container'>
-                <h2>All College</h2>
+                <h2>All Certficate</h2>
                 
                
                 <br />
