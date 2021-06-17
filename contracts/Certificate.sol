@@ -1,10 +1,10 @@
-pragma solidity ^0.6.0;
+pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
-// import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/access/Ownable.sol";
-// import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/utils/Pausable.sol";
-import "@openzeppelin/contracts/utils/Pausable.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/access/Ownable.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/security/Pausable.sol";
+// import "@openzeppelin/contracts/utils/Pausable.sol";
+// import "@openzeppelin/contracts/access/Ownable.sol";
 
 
 contract Certificates is Ownable{
@@ -96,13 +96,13 @@ contract Certificates is Ownable{
         colleges[msg.sender].clg_name = _clg_name;
         colleges[msg.sender].clg_address = msg.sender;
         colleges[msg.sender].isregistered = false;
-        emit clgAdded(collegecnt,_clg_name,now);
+        emit clgAdded(collegecnt, _clg_name, block.timestamp);
         
     }
     
     function registerCollege(uint _clg_id,bool _reg)public onlyOwner{
        colleges[colId[_clg_id]].isregistered = _reg;
-       emit clgRegistered(_clg_id,_reg,now);
+       emit clgRegistered(_clg_id, _reg, block.timestamp);
     }
     
     function addStudent(uint _cllg_id,uint _aadhar,string memory _name)public onlyRegisteredCollege(msg.sender) uniquestudent(_aadhar){
@@ -114,7 +114,7 @@ contract Certificates is Ownable{
         students[_aadhar].cllg_id = _cllg_id;
         students[_aadhar].certcount = 0;
         colleges[msg.sender].clg_student.push(studentcnt);
-        emit stuAdded(studentcnt,_aadhar,_name,_cllg_id,now);
+        emit stuAdded(studentcnt, _aadhar,_name, _cllg_id, block.timestamp);
     }
     
 
@@ -126,10 +126,10 @@ contract Certificates is Ownable{
         certy[certificatecnt].cert_name = _name;
         certy[certificatecnt].student_aadhar = _studentaadhar;
         certy[certificatecnt].ipfs_hash = _hash;
-        certy[certificatecnt].time = now;
+        certy[certificatecnt].time = block.timestamp;
         students[_studentaadhar].certs.push(certificatecnt);
         students[_studentaadhar].certcount++;
-        emit certAdded(certificatecnt,_cllg_id,_stu_id,now);
+        emit certAdded(certificatecnt, _cllg_id, _stu_id, block.timestamp);
         
     }
     
