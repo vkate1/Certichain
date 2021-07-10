@@ -4,17 +4,9 @@ import {Button,Form,FormGroup,Label,Input,Col,Card,CardImg,CardTitle,CardBody,Ca
 
 import Web3 from 'web3';
 
-
-let allcoll = [];
-let alldocs = [];
 const ETHER = 1000000000000000000;
 
-class Allpatrender extends Component {
-    // let day = moment.unix(art.dateofComp);
-    // let xy = art.dateofComp;
-    // let date = new Date(xy*1000);
-    // let time = day.format('dddd MMMM Do YYYY, h:mm:ss a');
-    // let yz = xy != 0?"bg-success text-white":"";
+class SingleCllgComp extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,14 +17,14 @@ class Allpatrender extends Component {
         };
         this.toggleModal = this.toggleModal.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.togglereg = this.togglereg.bind(this);
+        this.toggleRegister = this.toggleRegister.bind(this);
     }
 
-    togglereg = async () => {
-        if(this.props.art.isregistered){
+    toggleRegister = async () => {
+        if (this.props.college.isregistered) {
             const res = await this.props.contract.methods
             .registerCollege(
-                this.props.art.clg_id,
+                this.props.college.clg_id,
                 false
             )
             .send({ from: this.props.accounts, gas: 1000000 });
@@ -40,7 +32,7 @@ class Allpatrender extends Component {
         else{
             const res = await this.props.contract.methods
             .registerCollege(
-                this.props.art.clg_id,
+                this.props.college.clg_id,
                 true
             )
             .send({ from: this.props.accounts, gas: 1000000 });
@@ -53,6 +45,7 @@ class Allpatrender extends Component {
             isModalOpen: !this.state.isModalOpen
         });
     }
+
     handleInputChange(event) {
         const target = event.target;
         const value = target.value;
@@ -62,22 +55,20 @@ class Allpatrender extends Component {
         });
     }
 
-
-    render() {  
-                //let but = ;
-                let but = this.props.owner == this.props.accounts?'visible':'invisible';;
-                let butname = this.props.art.isregistered?'Unregister':'register';
+    render () {  
+                let isOwnerStyle = this.props.owner == this.props.accounts?'visible':'invisible';;
+                let isRegisterStyle = this.props.college.isregistered?'Unregister':'register';
         return (
-                <Card >
+            <Card >
                 <i className="fa fa-institution fa-4x"></i>
                 <CardBody>
-                <CardTitle><small>College ID : {this.props.art.clg_id}</small></CardTitle>
-                <CardText><small>College Address : {this.props.art.clg_address}</small></CardText>
-                <CardText><small>College Name : {this.props.art.clg_name}</small></CardText>
-                <CardText><small>Registration Status : {this.props.art.isregistered?'True':'False'}</small></CardText>
-                <Button className={but} type="submit" color="primary" onClick={this.togglereg}>
-                    {butname}
-                </Button>
+                    <CardTitle><small>College ID : {this.props.college.clg_id}</small></CardTitle>
+                    <CardText><small>College Address : {this.props.college.clg_address}</small></CardText>
+                    <CardText><small>College Name : {this.props.college.clg_name}</small></CardText>
+                    <CardText><small>Registration Status : {this.props.college.isregistered?'True':'False'}</small></CardText>
+                    <Button className={isOwnerStyle} type="submit" color="primary" onClick={this.toggleRegister}>
+                        {isRegisterStyle}
+                    </Button>
                 </CardBody>
             </Card>
         );
@@ -158,8 +149,8 @@ class  AllCllgComponent extends Component {
         const Menu = this.props.art?.map((x) => {
             return (
                 <div key={x} className='col-4 col-md-3'>
-                    <Allpatrender
-                        art={x}
+                    <SingleCllgComp
+                        college={x}
                         owner={this.state.owner}
                         contract={this.props.contract}
                         accounts={this.props.accounts}
