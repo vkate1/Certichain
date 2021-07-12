@@ -96,8 +96,6 @@ class  AllCllgComponent extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.fileSelectHandler = this.fileSelectHandler.bind(this);
         this.creatingItems = this.creatingItems.bind(this);
-
-
     }
 
     toggleModal1() {
@@ -107,13 +105,11 @@ class  AllCllgComponent extends Component {
     }
 
     creatingItems = async () => {
-       
-       
         const res = await this.props.contract.methods
-            .addCollege(
-                this.state.clgname
-            )
-            .send({ from: this.props.accounts, gas: 1000000 });
+        .addCollege(
+            this.state.clgname
+        )
+        .send({ from: this.props.accounts, gas: 1000000 });
         console.log(res);
         console.log(this.state.clgname);
         this.toggleModal1();
@@ -141,14 +137,10 @@ class  AllCllgComponent extends Component {
         });
     };
 
-
-
-
-
     render() {
-        const Menu = this.props.art?.map((x) => {
+        const allColleges = this.props.colleges?.map((x) => {
             return (
-                <div key={x} className='col-4 col-md-3'>
+                <div key={x.clg_id} className='col-4 col-md-3'>
                     <SingleCllgComp
                         college={x}
                         owner={this.state.owner}
@@ -161,13 +153,13 @@ class  AllCllgComponent extends Component {
             );
         });
 
-        let ch = 'visible';
         return (
             <div className='container'>
-                <h2>All College</h2>
+                <h2>All Colleges</h2>
+                <br/>
                 <Button
                     color='success'
-                    className={ch}
+                    className='visible'
                     onClick={this.toggleModal1}>
                     Add College
                 </Button>
@@ -194,8 +186,7 @@ class  AllCllgComponent extends Component {
                                             onChange={this.handleInputChange}
                                         />
                                     </FormGroup>
-                                </div>
-                               
+                                </div>   
                             </div>
                            
                             <br />
@@ -215,7 +206,7 @@ class  AllCllgComponent extends Component {
                 </Modal>
                 <br />
                 <br />
-                <div className='row'>{Menu}</div>
+                <div className='row'>{allColleges}</div>
                 <br />
                 <br />
                 <br />

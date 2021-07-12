@@ -151,7 +151,7 @@ class Main extends Component {
         <Header contract={this.state.contract} accounts={this.state.accounts} registered = {this.state.registered} balance={this.state.balance} web3={this.state.web3}/>
         <Switch>
             <Route exact path="/home" component={() => <Home contract={this.state.contract} accounts={this.state.accounts}/>}/>
-            <Route exact path='/allclg' component={() => (< AllCllgComponent art = {this.state.dish} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
+            <Route exact path='/allclg' component={() => (< AllCllgComponent colleges = {this.state.dish} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
             <Route exact path='/mystu' component={() => (< AllStuComponent dish = {this.state.dish} art = {this.state.stu} ipfs = {ipfs} current = {this.state.current} singlecoll={this.state.singlecoll} singlecolId = {this.state.singlecolid} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
             <Route path='/card/:id' component={CardWithId} />
             <Redirect to="/home"/>
