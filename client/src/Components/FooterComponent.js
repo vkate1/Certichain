@@ -5,10 +5,9 @@ function Footer(props){
     return(
         <div className="footer">
         <div className="container" style={{bottom:0}}>
-            
             <div className="row justify-content-center">             
                 <div className="col-auto">
-                    <p>© Copyright @2021</p>
+                    <p>© Copyright Kole @2021</p>
                 </div>
             </div>
         </div>
