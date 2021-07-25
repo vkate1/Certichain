@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
-import { Container,Form,Button } from 'reactstrap';
+import { Container} from 'reactstrap';
 
 
 class Home extends Component {
@@ -10,14 +10,13 @@ class Home extends Component {
             selectedFile: null
         };
     }
-
+    
     render() {
         return (
             <>
                 <div>
                     <Container>
-                        <h2>Welcome to Certichain</h2>
-                       
+                        <h1>Welcome to Certichain</h1>
                     </Container>
                 </div>
             </>
