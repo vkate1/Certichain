@@ -10,10 +10,8 @@ class SingleCllgComp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            docCount: 0,
             art: [],
-            isModalOpen: false,
-            sellPrice: 0
+            isModalOpen: false
         };
         this.toggleModal = this.toggleModal.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -36,7 +34,6 @@ class SingleCllgComp extends Component {
                 true
             )
             .send({ from: this.props.accounts, gas: 1000000 });
-     
         }
     }
 
@@ -56,8 +53,8 @@ class SingleCllgComp extends Component {
     }
 
     render () {  
-                let isOwnerStyle = this.props.owner == this.props.accounts?'visible':'invisible';;
-                let isRegisterStyle = this.props.college.isregistered?'Unregister':'register';
+        let isOwnerStyle = this.props.owner == this.props.accounts?'visible':'invisible';;
+        let isRegisterStyle = this.props.college.isregistered?'Unregister':'register';
         return (
             <Card >
                 <i className="fa fa-institution fa-4x"></i>
@@ -79,17 +76,10 @@ class  AllCllgComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            docCount: 0,
             art: [],
-            cust: [],
-            manuf: [],
             clgname: '',
             isModalOpen1: false,
             title: '',
-            artUrl: '',
-            price: '',
-            artHash: '',
-            perCut: 0,
             owner:''
         };
         this.toggleModal1 = this.toggleModal1.bind(this);
@@ -163,7 +153,6 @@ class  AllCllgComponent extends Component {
                     onClick={this.toggleModal1}>
                     Add College
                 </Button>
-
                 <Modal
                     isOpen={this.state.isModalOpen1}
                     toggle={this.toggleModal1}
@@ -188,7 +177,6 @@ class  AllCllgComponent extends Component {
                                     </FormGroup>
                                 </div>   
                             </div>
-                           
                             <br />
                             <div className='row pl-5'>
                                 <div className='col-6'>

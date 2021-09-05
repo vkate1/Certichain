@@ -22,13 +22,12 @@ class Main extends Component {
       balance: 0, 
       contract: null,
       res: null,
-      dish: null,
+      allColleges: null,
       stu: null,
       allce : null, 
       singlecoll:null,
       singlecolid : null
     };
-
   }
 
   componentDidMount = async () => {
@@ -51,86 +50,77 @@ class Main extends Component {
         current : null
       });
       
-      var res = await this.state.contract?.methods.collegecnt().call();
-      console.log(res);
-             
-      var response= [];
-      for(var i=1;i<=res;i++){
-          var rex = await this.state.contract?.methods.colId(i).call();
-          response.push(rex);
+      var resCollegeCnt = await this.state.contract?.methods.collegecnt().call();
+      console.log(resCollegeCnt);
+      var collegesAcc= [];
+      for(var i=1; i<=resCollegeCnt; i++) {
+        var resSingleAcc = await this.state.contract?.methods.colId(i).call();
+        collegesAcc.push(resSingleAcc);
       }
-      console.log(response);
-      let allcoll = [];
-      for(var j=0;j<response.length;j++){
-          var xt = await this.state.contract.methods.colleges(response[j]).call();
-          allcoll.push(xt); 
+      console.log(collegesAcc);
+      let allColleges = [];
+      for(var j=0; j<collegesAcc.length; j++){
+        var resSingleClg = await this.state.contract.methods.colleges(collegesAcc[j]).call();
+        allColleges.push(resSingleClg); 
       }
-      console.log(allcoll);
-      this.setState({ dish : allcoll});
-
-      allcoll.map((x) => {
-        if(x.clg_address == this.state.accounts){
-            this.setState({current : x.clg_id});
+      console.log(allColleges);
+      this.setState({allColleges : allColleges});
+      allColleges.map((clg) => {
+        if(clg.clg_address == this.state.accounts){
+          this.setState({current : clg.clg_id});
         } 
-    })
-    
-      var res = await this.state.contract?.methods.studentcnt().call();
-      console.log(res);
-             
-      var response= [];
-      for(var i=1;i<=res;i++){
-          var rex = await this.state.contract?.methods.stuId(i).call();
-          response.push(rex);
+      })
+      var resStudentCnt = await this.state.contract?.methods.studentcnt().call();
+      console.log(resStudentCnt);
+      var studentAadhars= [];
+      for(var i=1; i<=resStudentCnt; i++){
+        var resStuAadhar = await this.state.contract?.methods.stuId(i).call();
+        studentAadhars.push(resStuAadhar);
       }
-      console.log(response);
-      allcoll = [];
-      for(var j=0;j<response.length;j++){
-          var xt = await this.state.contract.methods.students(response[j]).call();
-          allcoll.push(xt);
-       
+      console.log(studentAadhars);
+      let allStudents = [];
+      for(var j=0; j<studentAadhars.length; j++){
+        var student = await this.state.contract.methods.students(studentAadhars[j]).call();
+        allStudents.push(student);
       }
-      
       console.log(this.state.current);
-      var res = await this.state.contract?.methods.certificatecnt().call();
-      console.log(res);
-             
-      var response= [];
-      for(var i=1;i<=res;i++){
-          var rex = await this.state.contract?.methods.certy(i).call();
-          response.push(rex);
+      var resCertCnt = await this.state.contract?.methods.certificatecnt().call();
+      console.log(resCertCnt);       
+      var allCertificates = [];
+      for(var i=1; i<=resCertCnt; i++){
+        var resCertificate = await this.state.contract?.methods.certy(i).call();
+        allCertificates.push(resCertificate);
       }
-      this.setState({ stu : allcoll,allce : response});
-      let singleclg = await this.state.dish.filter(x => x.clg_id == this.state.current);
-      
-      this.setState({singlecoll : singleclg[0].isregistered})
-      this.setState({singlecolid : singleclg[0].clg_id})
+      this.setState({ stu: allStudents, allce: allCertificates});
+      let singleClg = await this.state.allColleges.filter(clg => clg.clg_id == this.state.current);
+      this.setState({singlecoll: singleClg[0].isregistered})
+      this.setState({singlecolid: singleClg[0].clg_id})
       console.log(this.state.singlecoll);
     } catch (error) {
-
       console.error(error);
     }
   };
 
   render() {
     const CardWithId = ({ match }) => {
-      let allcerts = [];
       return (
         <AllCertComp
           art={this.state.allce}
           allcert = {this.state.allce}
-          contract={this.state.contract} accounts={this.state.accounts} matchId={match.params.id}
+          contract={this.state.contract} 
+          accounts={this.state.accounts} 
+          matchId={match.params.id}
         />
       );
     };
-
 
     return (
       <div className="App">
         <Header contract={this.state.contract} accounts={this.state.accounts} registered = {this.state.registered} balance={this.state.balance} web3={this.state.web3}/>
         <Switch>
             <Route exact path="/home" component={() => <Home contract={this.state.contract} accounts={this.state.accounts}/>}/>
-            <Route exact path='/allclg' component={() => (< AllCllgComponent colleges = {this.state.dish} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
-            <Route exact path='/mystu' component={() => (< AllStuComponent dish = {this.state.dish} art = {this.state.stu} ipfs = {ipfs} current = {this.state.current} singlecoll={this.state.singlecoll} singlecolId = {this.state.singlecolid} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
+            <Route exact path='/allclg' component={() => (< AllCllgComponent colleges = {this.state.allColleges} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
+            <Route exact path='/mystu' component={() => (< AllStuComponent dish = {this.state.allColleges} art = {this.state.stu} ipfs = {ipfs} current = {this.state.current} singlecoll={this.state.singlecoll} singlecolId = {this.state.singlecolid} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
             <Route path='/card/:id' component={CardWithId} />
             <Redirect to="/home"/>
         </Switch>

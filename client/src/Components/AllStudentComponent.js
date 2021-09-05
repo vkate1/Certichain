@@ -7,24 +7,15 @@ import Web3 from 'web3';
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
 
-let allcoll = [];
-let alldocs = [];
 const ETHER = 1000000000000000000;
-let show = 0;
 let x;
 class Allpatrender extends Component {
-    // let day = moment.unix(art.dateofComp);
-    // let xy = art.dateofComp;
-    // let date = new Date(xy*1000);
-    // let time = day.format('dddd MMMM Do YYYY, h:mm:ss a');
-    // let yz = xy != 0?"bg-success text-white":"";
     constructor(props) {
         super(props);
         this.state = {
             docCount: 0,
             art: [],
             isModalOpen: false,
-            sellPrice: 0,
             clgid:0,
             stuid : 0,
             certname : '',
