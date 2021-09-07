@@ -1,75 +1,37 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 //import moment from 'moment';
-import {Button,Form,FormGroup,Label,Input,Col,Card,CardImg,CardTitle,CardBody,CardText,Modal,ModalHeader,ModalBody} from 'reactstrap';
-
+import {Card,CardTitle,CardBody,CardText} from 'reactstrap';
 import Web3 from 'web3';
 
-
-let allcoll = [];
-let alldocs = [];
 const ETHER = 1000000000000000000;
 
-class Allpatrender extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            docCount: 0,
-            isModalOpen: false,
-            sellPrice: 0
-        };
-
-    }
-
-    
-
-    render() {
-        
-        return (
-            <Card >
-                <div style={{ maxWidth: '250px'}}>
-              <a href={`https://ipfs.infura.io/ipfs/${this.props.art.ipfs_hash}`} target="_black" ><img src={`https://ipfs.infura.io/ipfs/${this.props.art.ipfs_hash}`} style={{ maxWidth: '250px'}}/></a>
-                </div>
+function CertificateComp ({art, contract, accounts}){
+    return (
+        <Card >
+            <div style={{ maxWidth: '250px'}}>
+                <a href={`https://ipfs.infura.io/ipfs/${art.ipfs_hash}`} target="_black" ><img src={`https://ipfs.infura.io/ipfs/${art.ipfs_hash}`} style={{ maxWidth: '250px'}}/></a>
+            </div>
             <CardBody>
-          
-            <CardTitle><small>Student ID : {this.props.art.stu_id}</small></CardTitle>
-        <CardText><small>College Id : {this.props.art.college_id}</small></CardText>
-        <CardText><small>Student Adhar no : {this.props.art.student_aadhar}</small></CardText>
-        <CardText><small>Certificate Id : {this.props.art.cert_id}</small></CardText>
-        <CardText><small>Certificate Name : {this.props.art.cert_name}</small></CardText>
-        <CardText><small>IPFS Hash : {this.props.art.ipfs_hash}</small></CardText>
-    
+                <CardTitle><small>Student ID : {art.stu_id}</small></CardTitle>
+                <CardText><small>College Id : {art.college_id}</small></CardText>
+                <CardText><small>Student Adhar no : {art.student_aadhar}</small></CardText>
+                <CardText><small>Certificate Id : {art.cert_id}</small></CardText>
+                <CardText><small>Certificate Name : {art.cert_name}</small></CardText>
+                <CardText><small>IPFS Hash : {art.ipfs_hash}</small></CardText>
             </CardBody>
-            
         </Card>
-        );
-    }
+    );
 }
 
 class  AllCertComp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            docCount: 0,
             art: [],
-            cust: [],
-            manuf: [],
-            clgname: '',
-            isModalOpen1: false,
-            title: '',
-            artUrl: '',
-            price: '',
-            artHash: '',
-            perCut: 0
+            title: ''
         };
-
-
-
     }
-
-    
-
-
 
     render() {
         console.log(this.props.art);
@@ -78,17 +40,17 @@ class  AllCertComp extends Component {
         }
         const Menu = this.props.art.map((x) => {
             if(x.stu_id == this.props.matchId){
-            return (
-                <div key={x.cert_id} className='col-4 col-md-3'>
-                    <Allpatrender
-                        art={x}
-                        contract={this.props.contract}
-                        accounts={this.props.accounts}
-                    />
-                    <br />
-                    <br />
-                </div>
-            );
+                return (
+                    <div key={x.cert_id} className='col-4 col-md-3'>
+                        <CertificateComp
+                            art={x}
+                            contract={this.props.contract}
+                            accounts={this.props.accounts}
+                        />
+                        <br />
+                        <br />
+                    </div>
+                );
             }
             else{
                 return(<></>);
@@ -98,8 +60,6 @@ class  AllCertComp extends Component {
         return (
             <div className='container'>
                 <h2>All Certficate</h2>
-                
-               
                 <br />
                 <br />
                 <div className='row'>{Menu}</div>
