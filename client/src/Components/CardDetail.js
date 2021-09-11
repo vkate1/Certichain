@@ -6,7 +6,7 @@ import Web3 from 'web3';
 
 const ETHER = 1000000000000000000;
 
-function CertificateComp ({art, contract, accounts}){
+function CertificateComp ({art}){
     return (
         <Card >
             <div style={{ maxWidth: '250px'}}>
