@@ -95,7 +95,7 @@ class Main extends Component {
       let singleClg = await this.state.allColleges.filter(clg => clg.clg_id == this.state.current);
       this.setState({singlecoll: singleClg[0].isregistered})
       this.setState({singlecolid: singleClg[0].clg_id})
-      console.log(this.state.singlecoll);
+      console.log("singlecoll", this.state.singlecoll);
     } catch (error) {
       console.error(error);
     }
@@ -120,7 +120,7 @@ class Main extends Component {
         <Switch>
             <Route exact path="/home" component={() => <Home contract={this.state.contract} accounts={this.state.accounts}/>}/>
             <Route exact path='/allclg' component={() => (< AllCllgComponent colleges = {this.state.allColleges} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
-            <Route exact path='/mystu' component={() => (< AllStuComponent dish = {this.state.allColleges} art = {this.state.stu} ipfs = {ipfs} current = {this.state.current} singlecoll={this.state.singlecoll} singlecolId = {this.state.singlecolid} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
+            <Route exact path='/mystu' component={() => (< AllStuComponent dish = {this.state.allColleges} art = {this.state.stu} ipfs = {ipfs} current = {this.state.current} isRegistered = {this.state.singlecoll} singlecolId = {this.state.singlecolid} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
             <Route path='/card/:id' component={CardWithId} />
             <Redirect to="/home"/>
         </Switch>
