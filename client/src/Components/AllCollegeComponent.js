@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-//import moment from 'moment';
-import {Button,Form,FormGroup,Label,Input,Col,Card,CardImg,CardTitle,CardBody,CardText,Modal,ModalHeader,ModalBody} from 'reactstrap';
-
-import Web3 from 'web3';
-
-const ETHER = 1000000000000000000;
+import {Button,Form,FormGroup,Label,Input,Card,CardTitle,CardBody,CardText,Modal,ModalHeader,ModalBody} from 'reactstrap';
 
 class SingleCllgComp extends Component {
     constructor(props) {
@@ -13,34 +8,19 @@ class SingleCllgComp extends Component {
             art: [],
             isModalOpen: false
         };
-        this.toggleModal = this.toggleModal.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.toggleRegister = this.toggleRegister.bind(this);
     }
 
     toggleRegister = async () => {
-        if (this.props.college.isregistered) {
-            const res = await this.props.contract.methods
-            .registerCollege(
-                this.props.college.clg_id,
-                false
-            )
-            .send({ from: this.props.accounts, gas: 1000000 });
-        }
-        else{
-            const res = await this.props.contract.methods
-            .registerCollege(
-                this.props.college.clg_id,
-                true
-            )
-            .send({ from: this.props.accounts, gas: 1000000 });
-        }
-    }
-
-    toggleModal() {
-        this.setState({
-            isModalOpen: !this.state.isModalOpen
-        });
+        let regStatus = !this.props.college.isregistered;
+        const res = await this.props.contract.methods
+        .registerCollege(
+            this.props.college.clg_id,
+            regStatus
+        )
+        .send({ from: this.props.accounts, gas: 1000000 });
+        window.location.reload();
     }
 
     handleInputChange(event) {
@@ -84,7 +64,6 @@ class  AllCllgComponent extends Component {
         };
         this.toggleModal1 = this.toggleModal1.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.fileSelectHandler = this.fileSelectHandler.bind(this);
         this.creatingItems = this.creatingItems.bind(this);
     }
 
@@ -103,6 +82,7 @@ class  AllCllgComponent extends Component {
         console.log(res);
         console.log(this.state.clgname);
         this.toggleModal1();
+        window.location.reload();
     };
 
     handleInputChange(event) {
@@ -119,13 +99,6 @@ class  AllCllgComponent extends Component {
         console.log(res);
         this.setState({owner : res});
     }
-
-    fileSelectHandler = (event) => {
-        console.log(event.target.files);
-        this.setState({
-            selectedFile: event.target.files[0]
-        });
-    };
 
     render() {
         const allColleges = this.props.colleges?.map((x) => {

@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-//import moment from 'moment';
 import {Card,CardTitle,CardBody,CardText} from 'reactstrap';
-import Web3 from 'web3';
-
-const ETHER = 1000000000000000000;
 
 function CertificateComp ({art}){
     return (
         <Card >
-            <div style={{ maxWidth: '250px'}}>
-                <a href={`https://ipfs.infura.io/ipfs/${art.ipfs_hash}`} target="_black" ><img src={`https://ipfs.infura.io/ipfs/${art.ipfs_hash}`} style={{ maxWidth: '250px'}}/></a>
+            <div style={{ maxWidth: '100%'}}>
+                <a href={`https://ipfs.io/ipfs/${art.ipfs_hash}`} target="_black" ><img src={`https://ipfs.io/ipfs/${art.ipfs_hash}`} style={{ maxWidth: '100%'}}/></a>
             </div>
             <CardBody>
                 <CardTitle><small>Student ID : {art.stu_id}</small></CardTitle>
@@ -24,7 +19,7 @@ function CertificateComp ({art}){
     );
 }
 
-class  AllCertComp extends Component {
+class AllCertComp extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -38,7 +33,7 @@ class  AllCertComp extends Component {
         for(let i = 0;i<this.props.art?.length;i++){
             console.log(this.props.art[i]);
         }
-        const Menu = this.props.art.map((x) => {
+        const Menu = this.props.art?.map((x) => {
             if(x.stu_id == this.props.matchId){
                 return (
                     <div key={x.cert_id} className='col-4 col-md-3'>

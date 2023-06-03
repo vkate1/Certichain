@@ -70,6 +70,7 @@ class Main extends Component {
           this.setState({current : clg.clg_id});
         } 
       })
+
       var resStudentCnt = await this.state.contract?.methods.studentcnt().call();
       console.log(resStudentCnt);
       var studentAadhars= [];
@@ -118,7 +119,7 @@ class Main extends Component {
       <div className="App">
         <Header contract={this.state.contract} accounts={this.state.accounts} registered = {this.state.registered} balance={this.state.balance} web3={this.state.web3}/>
         <Switch>
-            <Route exact path="/home" component={() => <Home contract={this.state.contract} accounts={this.state.accounts}/>}/>
+            <Route exact path="/home" component={() => <Home/>}/>
             <Route exact path='/allclg' component={() => (< AllCllgComponent colleges = {this.state.allColleges} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
             <Route exact path='/mystu' component={() => (< AllStuComponent dish = {this.state.allColleges} art = {this.state.stu} ipfs = {ipfs} current = {this.state.current} isRegistered = {this.state.singlecoll} singlecolId = {this.state.singlecolid} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
             <Route path='/card/:id' component={CardWithId} />

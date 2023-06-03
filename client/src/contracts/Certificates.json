@@ -2,6 +2,75 @@
   "contractName": "Certificates",
   "abi": [
     {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_cllg_id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_stu_id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_studentaadhar",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_hash",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        }
+      ],
+      "name": "addCertificate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_clg_name",
+          "type": "string"
+        }
+      ],
+      "name": "addCollege",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_cllg_id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_aadhar",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        }
+      ],
+      "name": "addStudent",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "anonymous": false,
       "inputs": [
         {
@@ -102,6 +171,31 @@
       "type": "event"
     },
     {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_clg_id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "_reg",
+          "type": "bool"
+        }
+      ],
+      "name": "registerCollege",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "anonymous": false,
       "inputs": [
         {
@@ -141,68 +235,12 @@
     {
       "inputs": [
         {
-          "internalType": "uint256",
-          "name": "_cllg_id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_stu_id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_studentaadhar",
-          "type": "uint256"
-        },
-        {
-          "internalType": "string",
-          "name": "_hash",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_name",
-          "type": "string"
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
         }
       ],
-      "name": "addCertificate",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_clg_name",
-          "type": "string"
-        }
-      ],
-      "name": "addCollege",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_cllg_id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_aadhar",
-          "type": "uint256"
-        },
-        {
-          "internalType": "string",
-          "name": "_name",
-          "type": "string"
-        }
-      ],
-      "name": "addStudent",
+      "name": "transferOwnership",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -387,50 +425,6 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_clg_id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bool",
-          "name": "_reg",
-          "type": "bool"
-        }
-      ],
-      "name": "registerCollege",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "renounceOwnership",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "stuId",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [],
       "name": "studentcnt",
       "outputs": [
@@ -485,14 +479,20 @@
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
         }
       ],
-      "name": "transferOwnership",
-      "outputs": [],
-      "stateMutability": "nonpayable",
+      "name": "stuId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     }
   ],
@@ -13406,7 +13406,7 @@
         }
       },
       "links": {},
-      "address": "0x256cEB2f73390C1cc15b38e39430bEEab3857a8b",
+      "address": "0xc26BD4EB7aE6D7276b1975bD7901070144Db7D90",
       "transactionHash": "0x4605e2a57b94d8dd04b3813d23281235d4f7ced536b555882be4660e6a328446"
     }
   },

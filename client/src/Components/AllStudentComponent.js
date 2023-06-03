@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-//import moment from 'moment';
 import { Link } from 'react-router-dom';
 import {Button,Form,FormGroup,Label,Input,Col,Card,CardImg,CardTitle,CardBody,CardText,Modal,ModalHeader,ModalBody} from 'reactstrap';
-
+import pinataSDK from "@pinata/sdk";
+import Axios from 'axios';
 import Web3 from 'web3';
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
 let x;
 
+const REACT_APP_PINATA_API_KEY = "4e974bf92628a2a22d81";
+const REACT_APP_PINATA_API_SECRET =
+  "b174f7aeb7aeb0cf7e98d5f23ccd2045bf69321216e6e9a7fefc721c94ecfde9";
 class StuRender extends Component {
     constructor(props) {
         super(props);
@@ -25,7 +28,6 @@ class StuRender extends Component {
         };
         this.toggleModal = this.toggleModal.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.togglereg = this.togglereg.bind(this);
         this.uploadImage = this.uploadImage.bind(this)
         this.captureFile = this.captureFile.bind(this)
     }
@@ -36,44 +38,11 @@ class StuRender extends Component {
         this.setState({singlecol: sinColId, clid: clgId});
     }
 
-    togglereg = async () => {
-        if(this.props.art.isregistered){
-            const res = await this.props.contract.methods
-            .registerCollege(
-                this.props.art.clg_id,
-                false
-            )
-            .send({ from: this.props.accounts, gas: 1000000 });
-        }
-        else{
-            const res = await this.props.contract.methods
-            .registerCollege(
-                this.props.art.clg_id,
-                true
-            )
-            .send({ from: this.props.accounts, gas: 1000000 });
-        }
-    }
-
     toggleModal() {
         this.setState({
             isModalOpen: !this.state.isModalOpen
         });
     }
-
-    creatingcert = async () => {
-        const res = await this.props.contract.methods
-            .addCertificate(
-                this.props.current,
-                this.props.art.stu_id,
-                this.props.art.stu_aadhar_no,
-                this.state.certhash,
-                this.state.certname
-            )
-            .send({ from: this.props.accounts, gas: 1000000 });
-
-        this.toggleModal();
-    };
 
     handleInputChange(event) {
         const target = event.target;
@@ -87,37 +56,42 @@ class StuRender extends Component {
     captureFile = event => {
         event.preventDefault()
         const file = event.target.files[0]
-        const reader = new window.FileReader()
-        reader.readAsArrayBuffer(file)
-        reader.onloadend = () => {
-          this.setState({ buffer: Buffer(reader.result) })
-          console.log('buffer', this.state.buffer)
-        }
+        this.setState({ buffer: file });
     }
     
-    uploadImage = () => {
+    uploadImage = async () => {
         console.log("Submitting file to ipfs...")
         //adding file to the IPFS
         //console.log(this.state.buffer);
-        ipfs.add(this.state.buffer, (error, result) => {
-            console.log('Ipfs result', result)
-            if(error) {
-                console.error(error)
-                return
-            }
-            this.setState({ loading: true });
-            const res = this.props.contract.methods.addCertificate(
+        try {
+            const formData = new FormData();
+            formData.append("file", this.state.buffer);
+      
+            const resFile = await Axios({
+              method: "post",
+              url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+              data: formData,
+              headers: {
+                pinata_api_key: REACT_APP_PINATA_API_KEY,
+                pinata_secret_api_key: REACT_APP_PINATA_API_SECRET,
+                "Content-Type": "multipart/form-data",
+              },
+            });
+            console.log(resFile);
+            //this.creatingItems(resFile.data.IpfsHash);
+            const res = await this.props.contract.methods.addCertificate(
                 this.props.current,
                 this.props.art.stu_id,
                 this.props.art.stu_aadhar_no,
-                result[0].hash,
+                resFile.data.IpfsHash,
                 this.state.certname
-            )
-            .send({ from: this.props.accounts, gas: 1000000 }).on('transactionHash', (hash) => {
-                this.setState({ loading: false })
-                this.toggleModal();
-            })
-        })
+            ).send({ from: this.props.accounts, gas: 1000000 })
+            this.setState({ loading: false })
+            this.toggleModal();
+            window.location.reload();
+        } catch (err) {
+            console.log(err);
+        }
     }
       
     render() {
@@ -211,7 +185,6 @@ class AllStuComponent extends Component {
         };
         this.toggleModal1 = this.toggleModal1.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.fileSelectHandler = this.fileSelectHandler.bind(this);
         this.creatingItems = this.creatingItems.bind(this);
     }
 
@@ -228,8 +201,9 @@ class AllStuComponent extends Component {
                 this.state.stuadd,
                 this.state.stuname
             )
-            .send({ from: this.props.accounts, gas: 10000000 });
+            .send({ from: this.props.accounts, gas: 1000000 });
         this.toggleModal1();
+        window.location.reload();
     };
 
     handleInputChange(event) {
@@ -250,13 +224,6 @@ class AllStuComponent extends Component {
             this.setState({singlecol : this.props?.singlecolId});
         }
     }
-
-    fileSelectHandler = (event) => {
-        console.log(event.target.files);
-        this.setState({
-            selectedFile: event.target.files[0]
-        });
-    };
 
     render() {
         const Menu = this.state.art?.map((x) => {
