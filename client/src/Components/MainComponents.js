@@ -10,8 +10,6 @@ import Footer from './FooterComponent';
 import AllCertComp from './CardDetail';
 import AllStuComponent from './AllStudentComponent';
 
-const ipfsClient = require('ipfs-http-client')
-const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
 
 class Main extends Component {
   constructor(props) {
@@ -121,7 +119,7 @@ class Main extends Component {
         <Switch>
             <Route exact path="/home" component={() => <Home/>}/>
             <Route exact path='/allclg' component={() => (< AllCllgComponent colleges = {this.state.allColleges} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
-            <Route exact path='/mystu' component={() => (< AllStuComponent dish = {this.state.allColleges} art = {this.state.stu} ipfs = {ipfs} current = {this.state.current} isRegistered = {this.state.singlecoll} singlecolId = {this.state.singlecolid} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
+            <Route exact path='/mystu' component={() => (< AllStuComponent dish = {this.state.allColleges} art = {this.state.stu} current = {this.state.current} isRegistered = {this.state.singlecoll} singlecolId = {this.state.singlecolid} contract={this.state.contract} accounts={this.state.accounts}/>)}/>
             <Route path='/card/:id' component={CardWithId} />
             <Redirect to="/home"/>
         </Switch>

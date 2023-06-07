@@ -4,8 +4,6 @@ import {Button,Form,FormGroup,Label,Input,Col,Card,CardImg,CardTitle,CardBody,Ca
 import pinataSDK from "@pinata/sdk";
 import Axios from 'axios';
 import Web3 from 'web3';
-const ipfsClient = require('ipfs-http-client')
-const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
 let x;
 
 const REACT_APP_PINATA_API_KEY = "4e974bf92628a2a22d81";
@@ -233,7 +231,6 @@ class AllStuComponent extends Component {
                         <StuRender
                             art={x}
                             current={this.state.current}
-                            ipfs = {this.props.ipfs}
                             show = {this.state.show}
                             contract={this.props.contract}
                             accounts={this.props.accounts}
@@ -252,7 +249,6 @@ class AllStuComponent extends Component {
                             art={x}
                             current={this.state.current}
                             dish={this.props.dish}
-                            ipfs = {this.props.ipfs}
                             show = {this.state.show}
                             contract={this.props.contract}
                             accounts={this.props.accounts}
